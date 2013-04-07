@@ -5,6 +5,6 @@ CPAN:
 root@host$ sudo cpan
 method: 'sudo'
 mirror: 'let it find good ones'
-cpan> get simple-xml
+cpan> install XML::Simple
 
 http://search.cpan.org/~grantm/XML-Simple-2.20/
