@@ -1,0 +1,10 @@
+
+sudo apt-get install libxml-perl
+
+CPAN:
+root@host$ sudo cpan
+method: 'sudo'
+mirror: 'let it find good ones'
+cpan> get simple-xml
+
+http://search.cpan.org/~grantm/XML-Simple-2.20/
