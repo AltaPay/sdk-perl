@@ -57,4 +57,14 @@ sub wasSuccessful
     return $self->getErrorCode() == '0' && $self->result eq 'Success';
 }
 
+sub getPrimaryPayment
+{
+	my ($self) = @_;
+	foreach my $payment ($self->getPayments())
+	{
+		return $payment;
+	}
+	return undef;
+}
+
 1;

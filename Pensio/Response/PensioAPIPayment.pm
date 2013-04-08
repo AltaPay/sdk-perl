@@ -78,4 +78,10 @@ sub BUILD
     return $self;
 }
 
+sub getId()
+{
+	my ($self) = @_;
+	return $self->xml->{TransactionId};
+}
+
 1;
