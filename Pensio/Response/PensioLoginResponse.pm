@@ -24,7 +24,7 @@ sub BUILD
 
 sub wasSuccessful
 {
-	my ($self) = shift;
+	my ($self) = @_;
     return $self->getErrorCode() == '0' && $self->result eq 'OK';
 }
 
