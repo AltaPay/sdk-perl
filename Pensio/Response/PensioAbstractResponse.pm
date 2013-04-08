@@ -48,9 +48,9 @@ sub BUILD
 	$self->date($xml->{Header}->{Date});
 	$self->path($xml->{Header}->{Path});
 	$self->errorCode($xml->{Header}->{ErrorCode});
-	if(defined $xml->{Header}->{ErrorMessage})
+	if(defined $xml->{Header}->{ErrorMessage} && !(ref($xml->{Header}->{ErrorMessage}) eq "HASH"))
 	{
-		$self->errorMessage("".$xml->{Header}->{ErrorMessage});
+		$self->errorMessage($xml->{Header}->{ErrorMessage});
 	}
     return $self;
 }

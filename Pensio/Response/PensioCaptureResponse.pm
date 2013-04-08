@@ -4,28 +4,15 @@ use strict;
 use warnings;
 use Moose;
 
-require Pensio::Response::PensioAbstractResponse;
-extends 'Pensio::Response::PensioAbstractResponse';
+require Pensio::Response::PensioAbstractPaymentResponse;
+extends 'Pensio::Response::PensioAbstractPaymentResponse';
 
-has 'result' => (
-      is  => 'rw',
-      isa => 'Str',
-);
+
 
 sub BUILD
 {
 	my ($self, $xml) = @_;
-	if(defined $xml->{Body}->{Result})
-	{
-		$self->result($xml->{Body}->{Result});
-	}
 	return $self;
-}
-
-sub wasSuccessful
-{
-	my ($self) = @_;
-    return $self->getErrorCode() == '0' && $self->result eq 'OK';
 }
 
 1;
