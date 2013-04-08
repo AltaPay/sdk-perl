@@ -7,6 +7,7 @@ use HTTP::Request;
 use LWP::UserAgent;
 use Pensio::http::HTTPUtil;
 use Pensio::Response::PensioLoginResponse;
+use Pensio::http::HTTPUtilRequest;
 
 
 sub new {
@@ -55,7 +56,13 @@ sub _sendRequest {
 	{
 		$logId = $self->{_logger}->logRequest($url, $self->_mask_parameters(%params));
 	}
-	$response = $self->{'_http_util'}->_POST(url => $url, params => \%params, username => $self->{_username}, password => $self->{_password});  # will throw error if problem;
+	
+	my $request = Pensio::http::HTTPUtilRequest->new();
+	$request->_url($url);
+	$request->_params(%params);
+	$request->_username($self->{_username});
+	$request->_password($self->{_password});
+	$response = $self->{'_http_util'}->_POST($request);  # will throw error if problem;
 	if($self->{_logger})
 	{
 		$self->{_logger}->logResponse($logId, $response);

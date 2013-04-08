@@ -4,6 +4,8 @@ use HTTP::Headers;
 use HTTP::Request::Common;
 use HTML::Entities;
 use Encode;
+use LWP::UserAgent;
+use XML::Simple;
 
 sub new {
 	$class = shift;
@@ -64,19 +66,15 @@ sub _parse_http_response {
 
 
 sub _POST {
-    my ($self, %args) = @_;
-    my $url           = $args{url};
-    my $params        = $args{params};
-    my $username      = $args{username};
-    my $password      = $args{password};
+    my ($self, $request) = @_;
 
-    my $content = join('&', map("$_=" . encode("utf8", $params->{$_}), keys %{$params}) );
+    my $content = $request->urlencoded();
     my $agent   = $self->_get_useragent();
-    my $req     = HTTP::Request->new(POST => $url);
+    my $req     = HTTP::Request->new(POST => $request->_url);
 
     $req->content_type("application/x-www-form-urlencoded");
     $req->content($content);
-    $req->authorization_basic($username, $password);
+    $req->authorization_basic($request->_username, $request->_password);
 
     my $response    = $agent->request($req);
     my $xml_as_hash = $self->_parse_http_response(response => $response); # logs response too
