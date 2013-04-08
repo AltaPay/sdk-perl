@@ -12,7 +12,9 @@ use Data::Dumper;
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
 
-my $response = $api->capture(new Pensio::CaptureRequest(amount=>2.33, paymentId=>3));
+my $request = new Pensio::CaptureRequest(amount=>2.33, paymentId=>3);
+print 'CaptureRequest: ', Dumper($request), "\n";
+my $response = $api->capture(request => $request);
 print 'CaptureResponse: ', Dumper($response) , "\n";
 
 

@@ -26,8 +26,8 @@ has payments => (
     default => sub { [] },
     traits  => ['Array'],
     handles => {
-        add_payment  => 'push',
-        get_payments => 'elements',
+        addPayment  => 'push',
+        getPayments => 'elements',
     },
 );
 
@@ -41,7 +41,7 @@ sub BUILD
 	if(defined $xml->{Body}->{Transactions})
 	{
 		for my $Transaction ( $xml->{Body}->{Transactions}->{Transaction} ) {
-			$self->add_payment(new Pensio::Response::PensioAPIPayment($Transaction));
+			$self->addPayment(new Pensio::Response::PensioAPIPayment($Transaction));
 		}
 	}
 	if(defined $xml->{Body}->{MerchantErrorMessage})

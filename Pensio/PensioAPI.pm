@@ -2,6 +2,8 @@ package Pensio::PensioAPI;
 
 use strict;
 no strict 'refs';
+use MooseX::Params::Validate;
+
 use XML::Simple;
 use HTTP::Request;
 use LWP::UserAgent;
@@ -80,7 +82,10 @@ sub login {
 }
 
 sub capture {
-	my ($self, $request) = @_;
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::CaptureRequest', required => 1 },
+	);
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/captureReservation', $request->parameters());
 	return new Pensio::Response::PensioCaptureResponse($xml_as_hash);

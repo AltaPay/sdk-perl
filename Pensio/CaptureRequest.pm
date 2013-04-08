@@ -4,24 +4,21 @@ use strict;
 use warnings;
 use Moose;
 
+require Pensio::AbstractPaymentRequest;
+extends 'Pensio::AbstractPaymentRequest';
+
 has 'amount' => (
 	isa => 'Num', 
 	is => 'rw',
-	required => 1,
-);
-has 'paymentId' => (
-	isa => 'Str',
-	is => 'rw',
-	required => 1,
+	required => 0,
 );
 
 sub parameters {
 	my ($self) = @_;
 	
-	return {
-		'amount'=>$self->amount(),
-		'transaction_id'=>$self->paymentId()
-	};
+	my $params = $self->Pensio::AbstractPaymentRequest::parameters();
+	$params->{amount} = $self->amount();
+	return $params;
 }
 
 1;
