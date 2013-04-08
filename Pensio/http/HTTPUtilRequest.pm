@@ -1,65 +1,25 @@
 package Pensio::http::HTTPUtilRequest;
+use Moose;
+use Data::Dumper;
+use Encode;
 
-
-sub new {
-	$class = shift;
-	
-	$self = {};
-	
-	bless $self, $class;
-	
-	return $self;
-}
-
-sub _url {
-	my ($self, $url) = @_;
-	
-	if(defined $url)
-	{
-		$self->{url} = $url;
-	}
-	
-	return $self->{url};
-}
-
-sub _params {
-	my ($self, $params) = @_;
-	
-	if(defined $params)
-	{
-		$self->{params} = $params;
-	}
-	
-	return $self->{params};
-}
-
-sub _username {
-	my ($self, $username) = @_;
-	
-	if(defined $username)
-	{
-		$self->{username} = $username;
-	}
-	
-	return $self->{username};
-}
-
-sub _password {
-	my ($self, $password) = @_;
-	
-	if(defined $password)
-	{
-		$self->{password} = $password;
-	}
-	
-	return $self->{password};
-}
+has 'url' => (isa => 'Any', is => 'rw');
+has 'params' => (isa => 'HashRef', is => 'rw');
+has 'username' => (isa => 'Any', is => 'rw');
+has 'password' => (isa => 'Any', is => 'rw');
 
 sub urlencoded {
 	my ($self) = @_;
-
-	return join('&', map("$_=" . encode("utf8", $self->{params}->{$_}), keys %{$self->{params}}) );
+	
+	if(scalar(keys $self->params()) > 0)
+	{
+		my $params        = $self->params;
+		return join('&', map("$_=" . encode("utf8", $params->{$_}), keys %{$params}) );
+	}
+	else
+	{
+		return "";
+	}
 }
-
 
 1;

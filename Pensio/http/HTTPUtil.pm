@@ -70,11 +70,11 @@ sub _POST {
 
     my $content = $request->urlencoded();
     my $agent   = $self->_get_useragent();
-    my $req     = HTTP::Request->new(POST => $request->_url);
+    my $req     = HTTP::Request->new(POST => $request->url);
 
     $req->content_type("application/x-www-form-urlencoded");
     $req->content($content);
-    $req->authorization_basic($request->_username, $request->_password);
+    $req->authorization_basic($request->username, $request->password);
 
     my $response    = $agent->request($req);
     my $xml_as_hash = $self->_parse_http_response(response => $response); # logs response too

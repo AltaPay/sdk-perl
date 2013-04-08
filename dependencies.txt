@@ -4,3 +4,5 @@ root@host$ sudo cpan
 method: 'sudo'
 mirror: 'let it find good ones'
 cpan> install XML::Simple
+
+cpan> install Moose

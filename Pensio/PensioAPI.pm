@@ -7,6 +7,7 @@ use HTTP::Request;
 use LWP::UserAgent;
 use Pensio::http::HTTPUtil;
 use Pensio::Response::PensioLoginResponse;
+use Pensio::Response::PensioCaptureResponse;
 use Pensio::http::HTTPUtilRequest;
 
 
@@ -48,20 +49,20 @@ sub _mask_parameters
 }
 
 sub _sendRequest {
-	my ($self, $path, %params) = @_;
+	my ($self, $path, $params) = @_;
 	my $url     = $self->{'_installation_url'} . $path;
 	my $logId;
 	my $response;
 	if($self->{_logger})
 	{
-		$logId = $self->{_logger}->logRequest($url, $self->_mask_parameters(%params));
+		$logId = $self->{_logger}->logRequest($url, $self->_mask_parameters($params));
 	}
 	
 	my $request = Pensio::http::HTTPUtilRequest->new();
-	$request->_url($url);
-	$request->_params(%params);
-	$request->_username($self->{_username});
-	$request->_password($self->{_password});
+	$request->url($url);
+	$request->params($params);
+	$request->username($self->{_username});
+	$request->password($self->{_password});
 	$response = $self->{'_http_util'}->_POST($request);  # will throw error if problem;
 	if($self->{_logger})
 	{
@@ -76,6 +77,13 @@ sub login {
 	
     my $xml_as_hash  = $self->_sendRequest('/merchant/API/login', {});
 	return new Pensio::Response::PensioLoginResponse($xml_as_hash);
+}
+
+sub capture {
+	my ($self, $request) = @_;
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/captureReservation', $request->parameters());
+	return new Pensio::Response::PensioCaptureResponse->new($xml_as_hash);
 }
 
 1;
