@@ -9,6 +9,7 @@ use HTTP::Request;
 use LWP::UserAgent;
 use Pensio::http::HTTPUtil;
 use Pensio::Response::PensioLoginResponse;
+use Pensio::Response::PensioGetPaymentResponse;
 use Pensio::Response::PensioCaptureResponse;
 use Pensio::Response::PensioRefundResponse;
 use Pensio::Response::PensioInitiatePaymentResponse;
@@ -84,6 +85,16 @@ sub login {
 	
     my $xml_as_hash  = $self->_sendRequest('/merchant/API/login', {});
 	return new Pensio::Response::PensioLoginResponse($xml_as_hash);
+}
+
+sub getPayment {
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::GetPaymentRequest', required => 1 },
+	);
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/payments', $request->parameters());
+	return new Pensio::Response::PensioGetPaymentResponse($xml_as_hash);
 }
 
 sub capture {

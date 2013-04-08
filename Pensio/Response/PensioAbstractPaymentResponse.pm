@@ -36,7 +36,14 @@ sub BUILD
 	my ($self, $xml) = @_;
 	if(defined $xml->{Body}->{Result})
 	{
-		$self->result($xml->{Body}->{Result});
+		if(!(ref($xml->{Body}->{Result}) eq "HASH"))
+		{
+			$self->result($xml->{Body}->{Result});
+		}
+		else
+		{
+			$self->result('');
+		}
 	}
 	if(defined $xml->{Body}->{Transactions})
 	{
