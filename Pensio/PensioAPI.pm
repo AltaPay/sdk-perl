@@ -10,6 +10,7 @@ use LWP::UserAgent;
 use Pensio::http::HTTPUtil;
 use Pensio::Response::PensioLoginResponse;
 use Pensio::Response::PensioCaptureResponse;
+use Pensio::Response::PensioRefundResponse;
 use Pensio::http::HTTPUtilRequest;
 
 
@@ -89,6 +90,16 @@ sub capture {
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/captureReservation', $request->parameters());
 	return new Pensio::Response::PensioCaptureResponse($xml_as_hash);
+}
+
+sub refund {
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::RefundRequest', required => 1 },
+	);
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/refundCapturedReservation', $request->parameters());
+	return new Pensio::Response::PensioRefundResponse($xml_as_hash);
 }
 
 1;
