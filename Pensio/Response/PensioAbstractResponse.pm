@@ -1,5 +1,33 @@
 package Pensio::Response::PensioAbstractResponse;
 
+use strict;
+use warnings;
+use Moose;
+
+has 'date' => (
+      is  => 'rw',
+      isa => 'Str',
+      reader => 'getDate',
+);
+
+has 'path' => (
+      is  => 'rw',
+      isa => 'Str',
+      reader => 'getPath',
+);
+
+has 'errorCode' => (
+      is  => 'rw',
+      isa => 'Str',
+      reader => 'getErrorCode',
+);
+
+has 'errorMessage' => (
+      is  => 'rw',
+      isa => 'Str',
+      reader => 'getErrorMessage',
+);
+
 #/**
 # * <APIResponse version="20110831">
 # * 	<Header>
@@ -13,48 +41,18 @@ package Pensio::Response::PensioAbstractResponse;
 # * 	</Body>
 # * </APIResponse>
 # */
-sub new
+sub BUILD
 {
-	my ($class, $xml) = @_;
-	$self = {
-		#version      => (string)$xml['version'],
-		date         => $xml->{Header}->{ErrorMessage},
-		path         => $xml->{Header}->{Path},
-		errorCode    => $xml->{Header}->{ErrorCode},
-		errorMessage => $xml->{Header}->{ErrorMessage},
-	};
-    bless $self, $class;
+    my ($self, $xml) = @_;
+    
+	$self->date($xml->{Header}->{Date});
+	$self->path($xml->{Header}->{Path});
+	$self->errorCode($xml->{Header}->{ErrorCode});
+	if(defined $xml->{Header}->{ErrorMessage})
+	{
+		$self->errorMessage("".$xml->{Header}->{ErrorMessage});
+	}
     return $self;
-}
-	
-sub getVersion
-{
-	my ($self) = @_;
-	return $self->{'version'};
-}
-	
-sub getDate
-{
-	my ($self) = @_;
-	return $self->{'date'};
-}
-
-sub getPath
-{
-	my ($self) = @_;
-	return $self->{'path'};
-}
-
-sub getErrorCode
-{
-	my ($self) = @_;
-	return $self->{'errorCode'};
-}
-
-sub getErrorMessage
-{
-	my ($self) = @_;
-	return $self->{'errorMessage'};
 }
 
 sub wasSuccessful

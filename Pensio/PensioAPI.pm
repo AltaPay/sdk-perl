@@ -83,7 +83,7 @@ sub capture {
 	my ($self, $request) = @_;
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/captureReservation', $request->parameters());
-	return new Pensio::Response::PensioCaptureResponse->new($xml_as_hash);
+	return new Pensio::Response::PensioCaptureResponse($xml_as_hash);
 }
 
 1;

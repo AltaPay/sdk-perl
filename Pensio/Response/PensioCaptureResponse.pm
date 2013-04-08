@@ -1,22 +1,31 @@
 package Pensio::Response::PensioCaptureResponse;
-use Pensio::Response::PensioAbstractResponse;
 
-@ISA = qw(Pensio::Response::PensioAbstractResponse);
-@EXPORT = qw(wasSuccessful);
+use strict;
+use warnings;
+use Moose;
 
-sub new
+require Pensio::Response::PensioAbstractResponse;
+extends 'Pensio::Response::PensioAbstractResponse';
+
+has 'result' => (
+      is  => 'rw',
+      isa => 'Str',
+);
+
+sub BUILD
 {
-	my ($class, $xml) = @_;
-	my $self  = Pensio::Response::PensioAbstractResponse->new();
-	$self->{'result'} = $xml->{Body}->{Result} if $self->getErrorCode() == 0;
-	bless $self, $class;
+	my ($self, $xml) = @_;
+	if(defined $xml->{Body}->{Result})
+	{
+		$self->result($xml->{Body}->{Result});
+	}
 	return $self;
 }
 
 sub wasSuccessful
 {
-	my ($self) = @_;
-	return $self->getErrorCode() == '0' && $self->{result} == 'OK';
+	my ($self) = shift;
+    return $self->getErrorCode() == '0' && $self->result eq 'OK';
 }
 
 1;
