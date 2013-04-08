@@ -3,18 +3,25 @@ use Moose;
 use Data::Dumper;
 use Encode;
 
-has 'url' => (isa => 'Any', is => 'rw');
+has 'url' => (isa => 'Str', is => 'rw');
 has 'params' => (isa => 'HashRef', is => 'rw');
-has 'username' => (isa => 'Any', is => 'rw');
-has 'password' => (isa => 'Any', is => 'rw');
+has 'username' => (isa => 'Str', is => 'rw');
+has 'password' => (isa => 'Str', is => 'rw');
 
 sub urlencoded {
 	my ($self) = @_;
 	
 	if(scalar(keys $self->params()) > 0)
 	{
-		my $params        = $self->params;
-		return join('&', map("$_=" . encode("utf8", $params->{$_}), keys %{$params}) );
+		my @params        = qw();
+		foreach my $key (keys $self->params)
+		{
+			if(defined $self->params->{$key})
+			{
+				push(@params, $key."=".encode("utf8", $self->params->{$key}));
+			}
+		}
+		return join('&', @params);
 	}
 	else
 	{

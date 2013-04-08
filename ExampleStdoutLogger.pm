@@ -19,10 +19,9 @@ sub logRequest
 {
 	my ($self, $url, $params) = @_;
 	my $logId = $self->{counter};
-	my $paramsString = Dumper($params);
 	$self->{counter} = $self->{counter} + 1;
 	
-	print '[',$logId,'] Request to: ', $url, ' with params: ', $paramsString , "\n";
+	print '[',$logId,'] Request to: ', $url, ' with params: ', Dumper($params) , "\n";
 	return $logId;
 }
 

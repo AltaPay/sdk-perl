@@ -18,7 +18,7 @@ sub parameters {
 	
 	my $params = $self->Pensio::AbstractPaymentRequest::parameters();
 	$params->{transactionId} = $params->{transaction_id};
-	$params->{transaction_id} = undef;
+	delete $params->{transaction_id};
 	$params->{paRes} = $self->paRes();
 	return $params;
 }

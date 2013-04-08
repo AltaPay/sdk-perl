@@ -1,7 +1,7 @@
 package Pensio::PensioAPI;
 
 use strict;
-no strict 'refs';
+use warnings;
 use MooseX::Params::Validate;
 
 use XML::Simple;
@@ -38,19 +38,21 @@ sub setLogger {
 
 sub _mask_parameters
 {
-	my ($self, %params) = @_;
+	my ($self, $params) = @_;
     # Log only clean data
-    my $clean_params = %params;
+    my %clean_data = ();
+    %{$clean_data{params}} = %{$params};    
+    #my %clean_params = %{$params};
 
-    if (defined $clean_params->{cardnum}) {
-        $clean_params->{cardnum} = '************' . substr($clean_params->{cardnum}, -4);
+    if (defined $clean_data{params}->{cardnum}) {
+        $clean_data{params}->{cardnum} = '************' . substr($clean_data{params}->{cardnum}, -4);
     }
 
-	if(defined $clean_params->{cvc}) {
-		$clean_params->{cvc} = '***';
+	if(defined $clean_data{params}->{cvc}) {
+		$clean_data{params}->{cvc} = '***';
 	}
 	
-	return $clean_params;
+	return $clean_data{params};
 }
 
 sub _sendRequest {
