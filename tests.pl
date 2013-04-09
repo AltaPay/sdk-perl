@@ -3,10 +3,13 @@
 use TAP::Harness;
 $|++;
 
-my @tests = ('InitiatePaymentExample.pl',);
+my @tests = (
+	'InitiatePaymentExample.pl',
+	'CaptureExample.pl',
+);
 
 
 my $harness = TAP::Harness->new( {
-    verbosity => 1,
+    verbosity => 0,
  } );
 $harness->runtests(@tests);
