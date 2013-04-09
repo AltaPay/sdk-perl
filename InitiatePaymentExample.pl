@@ -8,6 +8,7 @@ use Pensio::PensioAPI;
 use Pensio::Request::InitiatePaymentRequest;
 use Pensio::Request::Verify3DSecureRequest;
 use Data::Dumper;
+use Test::More tests => 3;
 
 
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
@@ -27,45 +28,38 @@ my $response = $api->initiatePayment(request => $request);
 print 'InitiatePaymentResponse: ', Dumper($response) , "\n";
 
 
-if($response->wasSuccessful())
-{
-	print "Successfull CreditCard payment!\n";
-}
-else
-{
-	print "Payment failed..: ",$response->getMerchantErrorMessage(),"\n";
-}
+ok ($response->wasSuccessful(), "Successfull CreditCard payment!")
+	or diag("Payment failed..: ",$response->getMerchantErrorMessage());
 
 # Now with 3D-Secure (okay)
 $request->cardnum('4170000000000568');
 $request->terminal('Pensio Test 3DSecure Terminal');
-print 'InitiatePaymentRequest: ', Dumper($request), "\n";
-$response = $api->initiatePayment(request => $request);
-print 'InitiatePaymentResponse: ', Dumper($response) , "\n";
 
+note('InitiatePaymentRequest: ', Dumper($request));
+
+$response = $api->initiatePayment(request => $request);
+
+note('InitiatePaymentResponse: ', Dumper($response));
 
 if($response->was3DSecure())
 {
-	print "3D-Secure CreditCard payment: ", $response->getRedirectUrl(), ", PaReq:", $response->getPaReq(), "\n";
+	pass("Created 3D Secure payment successfully");
+	note("3D-Secure CreditCard payment: ", $response->getRedirectUrl(), ", PaReq:", $response->getPaReq());
 	my $verifyRequest = new Pensio::Request::Verify3DSecureRequest(
 		paymentId => $response->getPrimaryPayment()->getId(),
 		paRes => 'WorkingPaRes', # This is a hack, you would normally get this posted back after sending the browser to the redirect URL
 	);
-	print 'Verify3DSecureRequest: ', Dumper($verifyRequest), "\n";
+	note('Verify3DSecureRequest: ', Dumper($verifyRequest));
+	
 	my $verifyResponse = $api->verify3DSecure(request => $verifyRequest);
-	print 'Verify3DSecureResponse: ', Dumper($verifyResponse) , "\n";
+	
+	note('Verify3DSecureResponse: ', Dumper($verifyResponse));
 
-	if($verifyResponse->wasSuccessful())
-	{
-		print "Successfull 3D-Secure CreditCard payment!\n";
-	}
-	else
-	{
-		print "3D-Secure Validation failed..: ",$verifyResponse->getMerchantErrorMessage(),"\n";
-	}
+	ok ($verifyResponse->wasSuccessful(), "Successfull 3D-Secure CreditCard payment!")
+		or diag("3D-Secure Validation failed..: ",Dumper($verifyResponse))
 }
 else
 {
-	print "Non-3D-Secure Payment\n";
+	fail("Did not create 3D Secure payment successfully");
 }
 

@@ -1,6 +1,7 @@
 package ExampleStdoutLogger;
 use Pensio::logging::PensioAbstractLogger;
 use Data::Dumper;
+use Test::More;
 
 @ISA = qw(Pensio::logging::PensioAbstractLogger);
 
@@ -21,14 +22,14 @@ sub logRequest
 	my $logId = $self->{counter};
 	$self->{counter} = $self->{counter} + 1;
 	
-	print '[',$logId,'] Request to: ', $url, ' with params: ', Dumper($params) , "\n";
+	note('[',$logId,'] Request to: ', $url, ' with params: ', Dumper($params));
 	return $logId;
 }
 
 sub logResponse
 {
 	my ($self, $logId, $response) = @_;
-	print '[',$logId,'] Response: ', Dumper($response) , "\n";
+	note('[',$logId,'] Response: ', Dumper($response));
 }
 
 
