@@ -3,6 +3,7 @@ package Pensio::Request::CreatePaymentBaseRequest;
 use strict;
 use warnings;
 use Moose;
+use Moose::Util::TypeConstraints;
 
 
 has 'amount' => (
@@ -33,8 +34,8 @@ has 'currency' => (
 #  Optional Parameters  #
 #########################
 
-has 'type' => (
-	isa => 'Str', 
+has 'authType' => (
+	isa => enum([ qw(payment paymentAndCapture subscription subscriptionAndCharge verifyCard) ]), 
 	is => 'rw',
 	required => 0,
 );
@@ -46,7 +47,7 @@ has 'type' => (
 #);
 
 has 'fraudService' => (
-	isa => 'Str', 
+	isa => enum([ qw[ none maxmind test red ] ]), 
 	is => 'rw',
 	required => 0,
 	default => sub { 'none' }
@@ -59,10 +60,9 @@ has 'customerCreatedDate' => (
 );
 
 has 'shippingMethod' => (
-	isa => 'Str', 
+	isa => enum([ qw(LowCost DesignatedByCustomer International Military NextDay Other StorePickup TwoDayService ThreeDayService) ]), 
 	is => 'rw',
 	required => 0,
-	default => sub { 'LowCost' },
 );
 
 sub parameters {
@@ -75,7 +75,7 @@ sub parameters {
 		currency => $self->currency(),
 		
 		# Optional
-		type => $self->type(),
+		type => $self->authType(),
 		fraud_service => $self->fraudService(),
 		customer_created_date => $self->customerCreatedDate(),
 		shipping_method => $self->shippingMethod(),

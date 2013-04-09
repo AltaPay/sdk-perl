@@ -7,6 +7,7 @@ use Pensio::Request::PaymentRequestConfig;
 use Pensio::Request::CustomerInfo;
 use Pensio::Request::OrderLines;
 use Hash::Merge qw (merge);
+use Moose::Util::TypeConstraints;
 
 require Pensio::Request::CreatePaymentBaseRequest;
 extends 'Pensio::Request::CreatePaymentBaseRequest';
@@ -46,7 +47,7 @@ has 'organisationNumber' => (
 );
 
 has 'accountOffer' => (
-	isa => 'Str', 
+	isa => enum( [ qw(required disabled) ] ), 
 	is => 'rw',
 	required => 0
 );

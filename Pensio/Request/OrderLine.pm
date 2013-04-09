@@ -3,6 +3,8 @@ package Pensio::Request::OrderLine;
 use strict;
 use warnings;
 use Moose;
+use Moose::Util::TypeConstraints;
+
 
 has 'key' => (
 	isa => 'Int', 
@@ -53,7 +55,7 @@ has 'discount' => (
 );
 
 has 'goodsType' => (
-	isa => 'Str', 
+	isa => enum([qw(shipment handling item)]), 
 	is => 'rw',
 	required => 0,
 );

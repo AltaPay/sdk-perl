@@ -12,6 +12,7 @@ has 'lines' => (
 	isa => 'ArrayRef', 
 	is => 'rw',
 	required => 0,
+	default => sub { [] },
 );
 
 sub add {
@@ -26,8 +27,6 @@ sub add {
 
 sub BUILD {
 	my ($self, $xml) = @_;
-	
-	$self->lines([]);
 	
 	return $self;
 }
