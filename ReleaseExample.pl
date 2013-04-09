@@ -8,32 +8,63 @@ use Pensio::PensioAPI;
 use Pensio::Request::InitiatePaymentRequest;
 use Pensio::Request::ReleaseRequest;
 use Data::Dumper;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
 
-
-my $request = new Pensio::Request::InitiatePaymentRequest(
-	amount=>2.33, 
-	orderId=>'testOrder',
-	terminal=>'Pensio Test Terminal',
-	currency=>'EUR',
-	cardnum=>'4111000011110000',
-	emonth=>'03',
-	eyear=>'2042',
-);
-print 'InitiatePaymentRequest: ', Dumper($request), "\n";
-my $initiateResponse = $api->initiatePayment(request => $request);
-
-ok ($initiateResponse->wasSuccessful(), "Successfull initiate!")
-	or diag("Initiate before capture failed..: ",Dumper($initiateResponse));
-my $paymentId = $initiateResponse->getPrimaryPayment()->getId();
-my $request = new Pensio::Request::ReleaseRequest(paymentId=>$paymentId);
-note('CaptureRequest: ', Dumper($request));
-my $response = $api->release(request => $request);
-note('CaptureResponse: ', Dumper($response));
-
-ok ($response->wasSuccessful(), "Successfull release!")
-	or diag("Release failed..: ",Dumper($response));
+sub initiatePayment {
+	my ($cardnum) = @_;
 	
+	if(not defined $cardnum) {
+		$cardnum = '4111000011110000';
+	}
+	
+	my $request = new Pensio::Request::InitiatePaymentRequest(
+		amount=>2.33, 
+		orderId=>"release_".Pensio::Examples::getRandomOrderId(),
+		terminal=>'Pensio Test Terminal',
+		currency=>'EUR',
+		cardnum=>$cardnum,
+		emonth=>'03',
+		eyear=>'2042',
+	);
+	
+	my $initiateResponse = $api->initiatePayment(request => $request);
+	
+	ok ($initiateResponse->wasSuccessful(), "Successfull initiate!")
+		or diag("Initiate before capture failed..: ",Dumper($initiateResponse));
+		
+	return $initiateResponse->getPrimaryPayment()->getId();
+}
+
+	
+subtest 'Release success test' => sub {
+	
+	my $paymentId = initiatePayment();
+		
+	my $response = $api->release(request => new Pensio::Request::ReleaseRequest(paymentId=>$paymentId));
+	
+	ok ($response->wasSuccessful(), "Successfull release!")
+		or diag("Release failed..: ",Dumper($response));
+};
+
+subtest 'Release declined test' => sub {
+	
+	my $paymentId = initiatePayment('4111000011110866');
+		
+	my $response = $api->release(request => new Pensio::Request::ReleaseRequest(paymentId=>$paymentId));
+	
+	ok (!$response->wasSuccessful(), "Declined release!")
+		or diag("Release was not declined..: ",Dumper($response));
+};
+
+subtest 'Release error test' => sub {
+	
+	my $paymentId = initiatePayment('4111000011110867');
+		
+	my $response = $api->release(request => new Pensio::Request::ReleaseRequest(paymentId=>$paymentId));
+	
+	ok (!$response->wasSuccessful(), "Errored release!")
+		or diag("Release was not errored..: ",Dumper($response));
+};

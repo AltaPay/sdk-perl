@@ -16,18 +16,14 @@ $api->setLogger(new ExampleStdoutLogger());
 
 
 sub initiatePayment {
-	my ($cardnum, $amount) = @_;
-	
-	if(not defined $amount) {
-		$amount = 2.33;
-	}
+	my ($cardnum) = @_;
 	
 	if(not defined $cardnum) {
 		$cardnum = '4111000011110000';
 	}
 
 	my $request = new Pensio::Request::InitiatePaymentRequest(
-		amount=>$amount, 
+		amount=>2.33, 
 		orderId=>"refund_".Pensio::Examples::getRandomOrderId(),
 		terminal=>'Pensio Test Terminal',
 		currency=>'EUR',
@@ -45,11 +41,7 @@ sub initiatePayment {
 }
 
 sub capture {
-	my ($paymentId, $amount) = @_;
-	
-	if(not defined $amount) {
-		$amount = 2.33;
-	}
+	my ($paymentId) = @_;
 	
 	my $request = new Pensio::Request::CaptureRequest(
 		amount=>2.33, 
@@ -64,11 +56,7 @@ sub capture {
 
 sub refund {
 
-	my ($paymentId, $amount) = @_;
-	
-	if(not defined $amount) {
-		$amount = 2.33;
-	}
+	my ($paymentId) = @_;
 
 	my $request = new Pensio::Request::RefundRequest(
 		amount=>2.33, 
@@ -94,7 +82,7 @@ subtest 'Refund test' => sub {
 		or diag("Refund failed..: ",Dumper($response));
 };
 
-subtest 'Refund failing test' => sub {
+subtest 'Refund declined test' => sub {
 
 	my $paymentId = initiatePayment('4111000011110966');
 	
@@ -102,7 +90,7 @@ subtest 'Refund failing test' => sub {
 	
 	my $response = refund($paymentId);
 	
-	ok (!$response->wasSuccessful(), "Failing refund!")
+	ok (!$response->wasSuccessful(), "Declined refund!")
 		or diag("Refund did not fail..: ",Dumper($response));
 	
 	is ($response->getMerchantErrorMessage(), "TestAcquirer[transaction.amount=9.66 case][10966]", "Correct error message");
