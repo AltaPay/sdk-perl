@@ -10,3 +10,7 @@ cpan> install Moose
 cpan> install MooseX::Params::Validate
 
 cpan> install TAP::Formatter::JUnit
+
+cpan> install Hash::Merge
+
+
