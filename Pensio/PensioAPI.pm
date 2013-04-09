@@ -14,6 +14,7 @@ use Pensio::Response::PensioReleaseResponse;
 use Pensio::Response::PensioCaptureResponse;
 use Pensio::Response::PensioRefundResponse;
 use Pensio::Response::PensioInitiatePaymentResponse;
+use Pensio::Response::PensioCreatePaymentRequestResponse;
 use Pensio::Response::PensioVerify3DSecureResponse;
 use Pensio::http::HTTPUtilRequest;
 
@@ -148,5 +149,14 @@ sub verify3DSecure {
 	return new Pensio::Response::PensioVerify3DSecureResponse($xml_as_hash);
 }
 
+sub createPaymentRequest {
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::Request::CreatePaymentRequestRequest', required => 1 },
+	);
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/createPaymentRequest', $request->parameters());
+	return new Pensio::Response::PensioCreatePaymentRequestResponse($xml_as_hash);
+}
 
 1;
