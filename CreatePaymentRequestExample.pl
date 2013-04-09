@@ -31,7 +31,7 @@ ok ($response->wasSuccessful(), "Created payment request succesfully!")
 note($response->getUrl());
 
 
-$request = new Pensio::Request::CreatePaymentRequestRequest(
+my $request = new Pensio::Request::CreatePaymentRequestRequest(
 	amount=>2.33, 
 	orderId=> Pensio::Examples::getRandomOrderId(),
 	terminal=>'Pensio Test Terminal',
