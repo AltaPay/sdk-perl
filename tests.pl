@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use TAP::Harness;
+use TAP::Formatter::JUnit;
 $|++;
 
 my @tests = (
@@ -12,5 +13,6 @@ my @tests = (
 
 my $harness = TAP::Harness->new( {
     verbosity => 0,
+    formatter_class => TAP::Formatter::JUnit,
  } );
 $harness->runtests(@tests);
