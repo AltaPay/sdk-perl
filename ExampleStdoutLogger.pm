@@ -22,7 +22,17 @@ sub logRequest
 	my $logId = $self->{counter};
 	$self->{counter} = $self->{counter} + 1;
 	
-	note('[',$logId,'] Request to: ', $url, ' with params: ', Dumper($params));
+	my $cleanParams        = {};
+	foreach my $key (keys $params)
+	{
+		if(defined $params->{$key})
+		{
+			$cleanParams->{$key} = $params->{$key};
+		}
+	}
+	
+	$Data::Dumper::Sortkeys = true;
+	note('[',$logId,'] Request to: ', $url, ' with params: ', Dumper($cleanParams));
 	return $logId;
 }
 

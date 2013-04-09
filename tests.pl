@@ -9,6 +9,7 @@ $|++;
 
 my @tests = (
 	'InitiatePaymentExample.pl',
+	'CreatePaymentRequestExample.pl',
 	'ReleaseExample.pl',
 	'CaptureExample.pl',
 );

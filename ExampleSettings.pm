@@ -8,3 +8,10 @@ our $username         = 'shop api';
 our $password         = 'testpassword'; 
 our $shared_secret    = 'testsecret';
 
+sub getRandomOrderId {
+	my @chars = ("A".."Z", "a".."z");
+	my $string;
+	$string .= $chars[rand @chars] for 1..8;
+	
+	return $string;
+}

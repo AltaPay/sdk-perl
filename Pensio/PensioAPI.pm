@@ -63,6 +63,7 @@ sub _sendRequest {
 	my $url     = $self->{'_installation_url'} . $path;
 	my $logId;
 	my $response;
+	
 	if($self->{_logger})
 	{
 		$logId = $self->{_logger}->logRequest($url, $self->_mask_parameters($params));

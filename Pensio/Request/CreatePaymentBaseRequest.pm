@@ -39,28 +39,26 @@ has 'type' => (
 	required => 0,
 );
 
-#has 'transaction_info' => (
+#has 'transactionInfo' => (
 #	isa => 'Str', 
 #	is => 'rw',
 #	required => 0,
 #);
 
-has 'fraud_service' => (
+has 'fraudService' => (
 	isa => 'Str', 
 	is => 'rw',
 	required => 0,
 	default => sub { 'none' }
 );
 
-has 'customer_created_date' => (
+has 'customerCreatedDate' => (
 	isa => 'Str', 
 	is => 'rw',
 	required => 0,
 );
 
-
-
-has 'shipping_method' => (
+has 'shippingMethod' => (
 	isa => 'Str', 
 	is => 'rw',
 	required => 0,
@@ -78,10 +76,10 @@ sub parameters {
 		
 		# Optional
 		type => $self->type(),
-		fraud_service => $self->fraud_service(),
-		customer_created_date => $self->customer_created_date(),
-		shipping_method => $self->shipping_method(),
-		#transaction_info => $self->transaction_info(),
+		fraud_service => $self->fraudService(),
+		customer_created_date => $self->customerCreatedDate(),
+		shipping_method => $self->shippingMethod(),
+		#transaction_info => $self->transactionInfo(),
 	};
 }
 
