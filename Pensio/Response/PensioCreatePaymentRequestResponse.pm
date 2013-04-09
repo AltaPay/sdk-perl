@@ -11,13 +11,19 @@ has 'url' => (
       is  => 'rw',
       isa => 'Str',
       reader => 'getUrl',
-      required => 1,
+      required => 0,
+);
+
+has 'result' => (
+      is  => 'rw',
+      isa => 'Str',
 );
 
 sub BUILD
 {
 	my ($self, $xml) = @_;
 	$self->url($xml->{Body}->{Url});
+	$self->result($xml->{Body}->{Result});
 	return $self;
 }
 
