@@ -1,11 +1,11 @@
-package Pensio::Verify3DSecureRequest;
+package Pensio::Request::Verify3DSecureRequest;
 
 use strict;
 use warnings;
 use Moose;
 
-require Pensio::AbstractPaymentRequest;
-extends 'Pensio::AbstractPaymentRequest';
+require Pensio::Request::AbstractPaymentRequest;
+extends 'Pensio::Request::AbstractPaymentRequest';
 
 has 'paRes' => (
 	isa => 'Str', 
@@ -16,7 +16,7 @@ has 'paRes' => (
 sub parameters {
 	my ($self) = @_;
 	
-	my $params = $self->Pensio::AbstractPaymentRequest::parameters();
+	my $params = $self->Pensio::Request::AbstractPaymentRequest::parameters();
 	$params->{transactionId} = $params->{transaction_id};
 	delete $params->{transaction_id};
 	$params->{paRes} = $self->paRes();

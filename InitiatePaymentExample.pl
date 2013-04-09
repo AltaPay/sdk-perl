@@ -5,15 +5,15 @@ package Pensio::Examples;
 use ExampleSettings;
 use ExampleStdoutLogger;
 use Pensio::PensioAPI;
-use Pensio::InitiatePaymentRequest;
-use Pensio::Verify3DSecureRequest;
+use Pensio::Request::InitiatePaymentRequest;
+use Pensio::Request::Verify3DSecureRequest;
 use Data::Dumper;
 
 
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
 
-my $request = new Pensio::InitiatePaymentRequest(
+my $request = new Pensio::Request::InitiatePaymentRequest(
 	amount=>2.33, 
 	orderId=>'testOrder',
 	terminal=>'Pensio Test Terminal',
@@ -47,7 +47,7 @@ print 'InitiatePaymentResponse: ', Dumper($response) , "\n";
 if($response->was3DSecure())
 {
 	print "3D-Secure CreditCard payment: ", $response->getRedirectUrl(), ", PaReq:", $response->getPaReq(), "\n";
-	my $verifyRequest = new Pensio::Verify3DSecureRequest(
+	my $verifyRequest = new Pensio::Request::Verify3DSecureRequest(
 		paymentId => $response->getPrimaryPayment()->getId(),
 		paRes => 'WorkingPaRes', # This is a hack, you would normally get this posted back after sending the browser to the redirect URL
 	);

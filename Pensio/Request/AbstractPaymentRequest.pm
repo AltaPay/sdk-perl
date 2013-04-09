@@ -1,4 +1,4 @@
-package Pensio::AbstractPaymentRequest;
+package Pensio::Request::AbstractPaymentRequest;
 
 use strict;
 use warnings;

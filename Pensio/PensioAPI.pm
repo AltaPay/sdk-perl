@@ -90,7 +90,7 @@ sub login {
 sub getPayment {
 	my ($self, $request) = validated_list(
 		\@_,
-		request => { isa => 'Pensio::GetPaymentRequest', required => 1 },
+		request => { isa => 'Pensio::Request::GetPaymentRequest', required => 1 },
 	);
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/payments', $request->parameters());
@@ -100,7 +100,7 @@ sub getPayment {
 sub capture {
 	my ($self, $request) = validated_list(
 		\@_,
-		request => { isa => 'Pensio::CaptureRequest', required => 1 },
+		request => { isa => 'Pensio::Request::CaptureRequest', required => 1 },
 	);
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/captureReservation', $request->parameters());
@@ -110,7 +110,7 @@ sub capture {
 sub refund {
 	my ($self, $request) = validated_list(
 		\@_,
-		request => { isa => 'Pensio::RefundRequest', required => 1 },
+		request => { isa => 'Pensio::Request::RefundRequest', required => 1 },
 	);
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/refundCapturedReservation', $request->parameters());
@@ -120,7 +120,7 @@ sub refund {
 sub initiatePayment {
 	my ($self, $request) = validated_list(
 		\@_,
-		request => { isa => 'Pensio::InitiatePaymentRequest', required => 1 },
+		request => { isa => 'Pensio::Request::InitiatePaymentRequest', required => 1 },
 	);
 	
 	my $xml_as_hash  = $self->_sendRequest('/processor/API/initiatePayment', $request->parameters());
@@ -130,7 +130,7 @@ sub initiatePayment {
 sub verify3DSecure {
 	my ($self, $request) = validated_list(
 		\@_,
-		request => { isa => 'Pensio::Verify3DSecureRequest', required => 1 },
+		request => { isa => 'Pensio::Request::Verify3DSecureRequest', required => 1 },
 	);
 	
 	my $xml_as_hash  = $self->_sendRequest('/processor/API/verify3dSecure', $request->parameters());
