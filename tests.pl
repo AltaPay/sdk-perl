@@ -12,6 +12,7 @@ my @tests = (
 	'CreatePaymentRequestExample.pl',
 	'ReleaseExample.pl',
 	'CaptureExample.pl',
+	'RefundExample.pl',
 );
 my $formatterClassInput;
 $options = GetOptions("output=s" => \$formatterClassInput);

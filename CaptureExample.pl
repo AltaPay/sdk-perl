@@ -16,7 +16,7 @@ $api->setLogger(new ExampleStdoutLogger());
 
 my $request = new Pensio::Request::InitiatePaymentRequest(
 	amount=>2.33, 
-	orderId=>Pensio::Examples::getRandomOrderId(),
+	orderId=>"capture_"+Pensio::Examples::getRandomOrderId(),
 	terminal=>'Pensio Test Terminal',
 	currency=>'EUR',
 	cardnum=>'4111000011110000',
@@ -43,7 +43,7 @@ ok ($response->wasSuccessful(), "Successfull capture!")
 	
 my $request = new Pensio::Request::InitiatePaymentRequest(
 	amount=>2.33, 
-	orderId=>Pensio::Examples::getRandomOrderId(),
+	orderId=>"capture_"+Pensio::Examples::getRandomOrderId(),
 	terminal=>'Pensio Test Terminal',
 	currency=>'EUR',
 	cardnum=>'4111000011110000',
