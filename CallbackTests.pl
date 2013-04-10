@@ -7,7 +7,7 @@ use ExampleStdoutLogger;
 use Data::Dumper;
 use Pensio::PensioCallbackHandler;
 use Test::Exception;
-use Test::More tests => 1;
+use Test::More tests => 11;
 
 my $callbackHandler = new Pensio::PensioCallbackHandler();
 

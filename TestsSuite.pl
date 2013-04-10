@@ -8,11 +8,14 @@ use Data::Dumper;
 $|++;
 
 my @tests = (
-	'InitiatePaymentExample.pl',
-	'CreatePaymentRequestExample.pl',
-	'ReleaseExample.pl',
-	'CaptureExample.pl',
-	'RefundExample.pl',
+	'LoginTests.pl',
+	'InitiatePaymentTests.pl',
+	'CreatePaymentRequestTests.pl',
+	'ReleaseTests.pl',
+	'CaptureTests.pl',
+	'RefundTests.pl',
+	'GetPaymentTests.pl',
+	'CallbackTests.pl',
 );
 my $formatterClassInput;
 $options = GetOptions("output=s" => \$formatterClassInput);

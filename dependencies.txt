@@ -3,14 +3,12 @@ CPAN:
 root@host$ sudo cpan
 method: 'sudo'
 mirror: 'let it find good ones'
+
 cpan> install XML::Simple
-
 cpan> install Moose
-
 cpan> install MooseX::Params::Validate
-
 cpan> install TAP::Formatter::JUnit
-
 cpan> install Hash::Merge
+cpan> install Test::Exception
 
 
