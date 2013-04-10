@@ -2,6 +2,7 @@ package Pensio::http::HTTPUtilRequest;
 use Moose;
 use Data::Dumper;
 use Encode;
+use URI::Escape;
 
 has 'url' => (isa => 'Str', is => 'rw');
 has 'params' => (isa => 'HashRef', is => 'rw');
@@ -18,7 +19,7 @@ sub urlencoded {
 		{
 			if(defined $self->params->{$key})
 			{
-				push(@params, $key."=".encode("utf8", $self->params->{$key}));
+				push(@params, $key."=".uri_escape($self->params->{$key}));
 			}
 		}
 		return join('&', @params);
