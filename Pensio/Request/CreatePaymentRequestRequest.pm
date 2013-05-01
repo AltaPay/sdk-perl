@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use Moose;
 use Pensio::Request::PaymentRequestConfig;
-use Pensio::Request::CustomerInfo;
 use Pensio::Request::OrderLines;
 use Hash::Merge qw (merge);
 use Moose::Util::TypeConstraints;
@@ -58,11 +57,7 @@ has 'config' => (
 	required => 0
 );
 
-has 'customerInfo' => (
-	isa => 'Pensio::Request::CustomerInfo', 
-	is => 'rw',
-	required => 0
-);
+
 
 has 'orderLines' => (
 	isa => 'Pensio::Request::OrderLines', 
@@ -75,7 +70,7 @@ sub BUILD
 	my ($self, $xml) = @_;
 	
 	$self->config(new Pensio::Request::PaymentRequestConfig());
-	$self->customerInfo(new Pensio::Request::CustomerInfo());
+
 	$self->orderLines(new Pensio::Request::OrderLines());
 	
 	return $self;
@@ -94,8 +89,6 @@ sub parameters {
 	$params->{"ccToken"} = $self->creditCardToken();
 	
 	$params = merge($params, $self->config()->parameters());
-	
-	$params = merge($params, $self->customerInfo()->parameters());
 	
 	$params = merge($params, $self->orderLines()->parameters());
 	

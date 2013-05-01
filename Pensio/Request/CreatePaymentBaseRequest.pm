@@ -4,6 +4,9 @@ use strict;
 use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
+use Hash::Merge qw (merge);
+
+use Pensio::Request::CustomerInfo;
 
 
 has 'amount' => (
@@ -65,10 +68,25 @@ has 'shippingMethod' => (
 	required => 0,
 );
 
+has 'customerInfo' => (
+	isa => 'Pensio::Request::CustomerInfo', 
+	is => 'rw',
+	required => 0
+);
+
+sub BUILD
+{
+	my ($self, $xml) = @_;
+	
+	$self->customerInfo(new Pensio::Request::CustomerInfo());
+	
+	return $self;
+}
+
 sub parameters {
 	my ($self) = @_;
 	
-	return {
+	my $params = {
 		amount => $self->amount(),
 		shop_orderid => $self->orderId(),
 		terminal => $self->terminal(),
@@ -80,7 +98,10 @@ sub parameters {
 		customer_created_date => $self->customerCreatedDate(),
 		shipping_method => $self->shippingMethod(),
 		#transaction_info => $self->transactionInfo(),
+		
 	};
+	$params = merge($params, $self->customerInfo()->parameters());
+	return $params;
 }
 
 
