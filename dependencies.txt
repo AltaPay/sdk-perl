@@ -7,6 +7,7 @@ mirror: 'let it find good ones'
 cpan> install XML::Simple
 cpan> install Moose
 cpan> install MooseX::Params::Validate
+cpan> install MooseX::Types
 cpan> install TAP::Formatter::JUnit
 cpan> install Hash::Merge
 cpan> install Test::Exception
