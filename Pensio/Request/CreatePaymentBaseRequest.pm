@@ -71,15 +71,19 @@ has 'shippingMethod' => (
 has 'customerInfo' => (
 	isa => 'Pensio::Request::CustomerInfo', 
 	is => 'rw',
-	required => 0
+	required => 0,
+	lazy_build => 1,
+	coerce => 1,
 );
+
+sub _build_customerInfo {
+	my ($self) = @_;
+	return new Pensio::Request::CustomerInfo();
+}
 
 sub BUILD
 {
 	my ($self, $xml) = @_;
-	
-	$self->customerInfo(new Pensio::Request::CustomerInfo());
-	
 	return $self;
 }
 

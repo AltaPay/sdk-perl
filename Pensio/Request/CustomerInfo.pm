@@ -3,7 +3,9 @@ package Pensio::Request::CustomerInfo;
 use strict;
 use warnings;
 use Moose;
+use Moose::Util::TypeConstraints;
 use Hash::Merge qw (merge);
+use MooseX::Types::Moose qw/ Str HashRef /;
 
 use Pensio::Request::CustomerInfoAddress;
 
@@ -43,26 +45,34 @@ has 'bankPhone' => (
 	required => 0,
 );
 
+has 'ipAddress' => (
+    isa => 'Str',
+    is  => 'rw',
+    required => 0,
+);
+
 has 'billingAddress' => (
 	isa => 'Pensio::Request::CustomerInfoAddress', 
 	is => 'rw',
 	required => 0,
+	lazy_build => 1,
 );
+
+sub _build_billingAddress {
+    my ($self) = @_;
+    return new Pensio::Request::CustomerInfoAddress(addressType => "billing");
+}
 
 has 'shippingAddress' => (
 	isa => 'Pensio::Request::CustomerInfoAddress', 
 	is => 'rw',
 	required => 0,
+	lazy_build => 1,
 );
 
-sub BUILD
-{
-	my ($self, $xml) = @_;
-	
-	$self->billingAddress(new Pensio::Request::CustomerInfoAddress(addressType => "billing"));
-	$self->shippingAddress(new Pensio::Request::CustomerInfoAddress(addressType => "shipping"));
-
-	return $self;
+sub _build_shippingAddress {
+    my ($self) = @_;
+    return new Pensio::Request::CustomerInfoAddress(addressType => "shipping");
 }
 
 sub parameters {
@@ -75,6 +85,7 @@ sub parameters {
 	$params->{"customer_info[customer_phone]"} = $self->customerPhone();
 	$params->{"customer_info[bank_name]"} = $self->bankName();
 	$params->{"customer_info[bank_phone]"} = $self->bankPhone();
+	$params->{"customer_info[client_ip]"}  = $self->ipAddress();
 	
 	
 	$params = merge($params, $self->billingAddress()->parameters());
@@ -84,5 +95,10 @@ sub parameters {
 	return $params;
 }
 
+class_type 'Pensio::Request::CustomerInfo';
+
+coerce 'Pensio::Request::CustomerInfo',
+    => from HashRef,
+    => via { new Pensio::Request::CustomerInfo( $_ ) };
 
 1;
