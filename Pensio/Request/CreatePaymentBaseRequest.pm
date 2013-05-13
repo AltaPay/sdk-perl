@@ -5,6 +5,7 @@ use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
 use Hash::Merge qw (merge);
+use Pensio::Request::OrderLines;
 
 use Pensio::Request::CustomerInfo;
 
@@ -76,6 +77,19 @@ has 'customerInfo' => (
 	coerce => 1,
 );
 
+has 'orderLines' => (
+	isa => 'Pensio::Request::OrderLines', 
+	is => 'rw',
+	required => 0,
+	lazy_build => 1,
+	coerce => 1,
+);
+
+sub _build_orderLines {
+	my ($self) = @_;
+	return new Pensio::Request::OrderLines();
+}
+
 sub _build_customerInfo {
 	my ($self) = @_;
 	return new Pensio::Request::CustomerInfo();
@@ -105,6 +119,7 @@ sub parameters {
 		
 	};
 	$params = merge($params, $self->customerInfo()->parameters());
+	$params = merge($params, $self->orderLines()->parameters());
 	return $params;
 }
 

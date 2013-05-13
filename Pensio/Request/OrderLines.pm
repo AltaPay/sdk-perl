@@ -3,8 +3,10 @@ package Pensio::Request::OrderLines;
 use strict;
 use warnings;
 use Moose;
+use Moose::Util::TypeConstraints;
 use Hash::Merge qw (merge);
 use Data::Dumper;
+use MooseX::Types::Moose qw/ Str HashRef /;
 
 use Pensio::Request::OrderLine;
 
@@ -44,5 +46,13 @@ sub parameters {
 	
 	return $params;
 }
+
+class_type 'Pensio::Request::OrderLines';
+
+coerce 'Pensio::Request::OrderLines',
+    => from HashRef,
+    => via { new Pensio::Request::OrderLines( $_ ) };
+
+
 
 1;

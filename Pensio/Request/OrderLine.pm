@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
+use Hash::Merge qw (merge);
+use MooseX::Types::Moose qw/ Str HashRef /;
 
 
 has 'key' => (
@@ -76,6 +78,13 @@ sub parameters {
 	
 	return $params;
 }
+
+class_type 'Pensio::Request::OrderLine';
+
+coerce 'Pensio::Request::OrderLine',
+    => from HashRef,
+    => via { new Pensio::Request::OrderLine( $_ ) };
+
 
 
 1;
