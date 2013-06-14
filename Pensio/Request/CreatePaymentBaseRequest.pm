@@ -44,11 +44,11 @@ has 'authType' => (
 	required => 0,
 );
 
-#has 'transactionInfo' => (
-#	isa => 'Str', 
-#	is => 'rw',
-#	required => 0,
-#);
+has 'transactionInfo' => (
+	isa => 'HashRef', 
+	is => 'rw',
+	required => 0,
+);
 
 has 'fraudService' => (
 	isa => enum([ qw[ none maxmind test red ] ]), 
@@ -115,9 +115,13 @@ sub parameters {
 		fraud_service => $self->fraudService(),
 		customer_created_date => $self->customerCreatedDate(),
 		shipping_method => $self->shippingMethod(),
-		#transaction_info => $self->transactionInfo(),
-		
 	};
+	
+	while((my $key, my $value) = each $self->transactionInfo())
+	{
+		$params->{"transaction_info[".$key."]"} = $value;
+	}
+	
 	$params = merge($params, $self->customerInfo()->parameters());
 	$params = merge($params, $self->orderLines()->parameters());
 	return $params;

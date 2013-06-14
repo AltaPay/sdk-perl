@@ -38,6 +38,7 @@ sub initiatePayment {
 		emonth=>'03',
 		eyear=>'2042',
 		fraudService => $fraudService,
+		transactionInfo => {info1=>'test'}
 	);
 
 	if($fraudService == 'test') {
