@@ -48,7 +48,7 @@ sub BUILD
 sub parameters {
 	my ($self) = @_;
 	
-	my $params = $self->Pensio::Request::AbstractPaymentRequest::parameters();
+	my $params = $self->Pensio::Request::AmountBasedPaymentRequest::parameters();
 	$params->{reconciliation_identifier} = $self->reconciliationIdentifier();
 	$params->{invoice_number} = $self->invoiceNumber();
 	$params->{sales_tax} = $self->salesTax();

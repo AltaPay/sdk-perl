@@ -8,7 +8,7 @@ use Pensio::PensioAPI;
 use Pensio::Request::InitiatePaymentRequest;
 use Pensio::Request::CaptureRequest;
 use Data::Dumper;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
@@ -52,6 +52,20 @@ subtest 'Capture success test' => sub {
 
 };	
 
+subtest 'Capture amount less than reserved' => sub {
+
+    my $paymentId = initiatePayment();
+
+    my $captured_amount = 1.33; # less than the reserved amount 2.33
+    my $request = new Pensio::Request::CaptureRequest( amount => $captured_amount, paymentId => $paymentId);
+
+    my $response = $api->capture(request => $request);
+
+    ok ($response->wasSuccessful(), "Successfull capture!")
+        or diag("Capture failed..: ",Dumper($response));
+    my $first_payment = shift @{$response->payments};
+    is ($first_payment->{xml}{CapturedAmount}, $captured_amount, 'Response - captured amount');
+};
 
 subtest 'Capture declined test' => sub {
 	
