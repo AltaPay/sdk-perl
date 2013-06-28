@@ -116,10 +116,13 @@ sub parameters {
 		customer_created_date => $self->customerCreatedDate(),
 		shipping_method => $self->shippingMethod(),
 	};
-	
-	while((my $key, my $value) = each $self->transactionInfo())
+
+	if (defined $self->transactionInfo())
 	{
-		$params->{"transaction_info[".$key."]"} = $value;
+		while((my $key, my $value) = each $self->transactionInfo())
+		{
+			$params->{"transaction_info[".$key."]"} = $value;
+		}
 	}
 	
 	$params = merge($params, $self->customerInfo()->parameters());

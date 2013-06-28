@@ -9,7 +9,7 @@ use Pensio::Request::RefundRequest;
 use Pensio::Request::CaptureRequest;
 use Pensio::Request::InitiatePaymentRequest;
 use Data::Dumper;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
@@ -56,12 +56,20 @@ sub capture {
 
 sub refund {
 
-	my ($paymentId) = @_;
+	my ($paymentId, $amount, $allowOverRefund) = @_;
+
+	if(not defined $allowOverRefund) {
+		$allowOverRefund = 0;
+	}
+	if(not defined $amount) {
+		$amount = 2.33;
+	}
 
 	my $request = new Pensio::Request::RefundRequest(
-		amount=>2.33, 
+		amount=>$amount,
 		paymentId=>$paymentId,
-		reconciliationIdentifier=>"my local id"
+		reconciliationIdentifier=>"my local id",
+		allowOverRefund=>$allowOverRefund
 	);
 	
 	my $response = $api->refund(request => $request);
@@ -73,40 +81,52 @@ sub refund {
 subtest 'Refund test' => sub {
 
 	my $paymentId = initiatePayment();
-	
+
 	capture($paymentId);
-	
+
 	my $response = refund($paymentId);
-	
+
 	ok ($response->wasSuccessful(), "Successfull refund!")
 		or diag("Refund failed..: ",Dumper($response));
+};
+
+subtest 'Over Refund test' => sub {
+
+	my $paymentId = initiatePayment();
+
+	capture($paymentId);
+
+	my $response = refund($paymentId, 10, 1);
+
+	ok ($response->wasSuccessful(), "Successfull refund!")
+		or diag("Over refund failed..: ",Dumper($response));
 };
 
 subtest 'Refund declined test' => sub {
 
 	my $paymentId = initiatePayment('4111000011110966');
-	
+
 	capture($paymentId);
-	
+
 	my $response = refund($paymentId);
-	
+
 	ok (!$response->wasSuccessful(), "Declined refund!")
 		or diag("Refund did not fail..: ",Dumper($response));
-	
+
 	is ($response->getMerchantErrorMessage(), "TestAcquirer[transaction.amount=9.66 case][10966]", "Correct error message");
 };
 
 subtest 'Refund error test' => sub {
 
 	my $paymentId = initiatePayment('4111000011110967');
-	
+
 	capture($paymentId);
-	
+
 	my $response = refund($paymentId);
-	
+
 	ok (!$response->wasSuccessful(), "Failing refund!")
 		or diag("Refund did not fail..: ".Dumper($response));
-		
+
 	is ($response->getMerchantErrorMessage(), "TestAcquirer[capture_amount=9.67 case]", "Correct error message");
-		
+
 };
