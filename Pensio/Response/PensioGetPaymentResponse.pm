@@ -21,4 +21,11 @@ sub wasSuccessful
     return $self->getErrorCode() == '0' && scalar($self->getPayments()) == 1;
 }
 
+sub supportsRefunds
+{
+    my ($self) = @_;
+    my $transaction = $self->getPrimaryPayment()->xml();
+    return ( lc($transaction->{PaymentNatureService}->{SupportsRefunds}) eq 'true' ) ? 1 : 0;
+}
+
 1;
