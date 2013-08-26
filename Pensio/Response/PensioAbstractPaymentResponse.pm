@@ -47,7 +47,9 @@ sub BUILD
 	}
 	if(defined $xml->{Body}->{Transactions})
 	{
-		for my $Transaction ( $xml->{Body}->{Transactions}->{Transaction} ) {
+		my $transactions = $xml->{Body}->{Transactions}->{Transaction};
+		my @payments = ( ref($transactions) eq 'ARRAY' ) ? @{$transactions} : ( $transactions ); 
+		for my $Transaction ( @payments ) {
 			$self->addPayment(new Pensio::Response::PensioAPIPayment($Transaction));
 		}
 	}

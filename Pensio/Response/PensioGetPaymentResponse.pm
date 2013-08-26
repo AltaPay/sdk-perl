@@ -18,7 +18,7 @@ sub BUILD
 sub wasSuccessful
 {
 	my ($self) = @_;
-    return $self->getErrorCode() == '0' && scalar($self->getPayments()) == 1;
+    return $self->getErrorCode() == '0' && scalar($self->getPayments());
 }
 
 sub supportsRefunds
