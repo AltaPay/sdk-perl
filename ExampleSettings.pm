@@ -2,7 +2,7 @@ package Pensio::Examples;
 
 use strict;
 
-our $installation_url = 'http://cigateway.earth.pensio.com';
+our $installation_url = 'http://cigateway.mars.pensio.com';
 our $terminal         = 'Pensio Soap Test Terminal';
 our $username         = 'shop api'; 
 our $password         = 'testpassword'; 
