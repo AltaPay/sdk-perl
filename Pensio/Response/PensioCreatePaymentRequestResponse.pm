@@ -9,14 +9,14 @@ extends 'Pensio::Response::PensioAbstractResponse';
 
 has 'url' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
       reader => 'getUrl',
       required => 0,
 );
 
 has 'result' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
 );
 
 sub BUILD

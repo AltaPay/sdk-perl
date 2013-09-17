@@ -9,14 +9,14 @@ extends 'Pensio::Response::PensioAbstractPaymentResponse';
 
 has 'redirect_url' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
       reader => 'getRedirectUrl',
       required => 0,
 );
 
 has 'pa_req' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
       reader => 'getPaReq',
       required => 0,
 );

@@ -9,7 +9,7 @@ extends 'Pensio::Response::PensioAbstractResponse';
 
 has 'result' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
 );
 
 sub BUILD

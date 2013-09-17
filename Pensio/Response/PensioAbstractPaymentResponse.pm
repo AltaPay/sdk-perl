@@ -11,12 +11,12 @@ use Pensio::Response::PensioAPIPayment;
 
 has 'result' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
 );
 
 has 'merchant_error_message' => (
       is  => 'rw',
-      isa => 'Str',
+      isa => 'Maybe[Str]',
       reader => 'getMerchantErrorMessage',
 );
 
