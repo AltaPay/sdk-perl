@@ -25,7 +25,7 @@ sub initiatePayment {
 	my $request = new Pensio::Request::InitiatePaymentRequest(
 		amount=>2.33, 
 		orderId=>"refund_".Pensio::Examples::getRandomOrderId(),
-		terminal=>'Pensio Test Terminal',
+		terminal=>$terminal,
 		currency=>'EUR',
 		cardnum=>$cardnum,
 		emonth=>'03',
@@ -113,7 +113,7 @@ subtest 'Refund declined test' => sub {
 	ok (!$response->wasSuccessful(), "Declined refund!")
 		or diag("Refund did not fail..: ",Dumper($response));
 
-	is ($response->getMerchantErrorMessage(), "TestAcquirer[transaction.amount=9.66 case][10966]", "Correct error message");
+	is ($response->getMerchantErrorMessage(), "TestAcquirer[pan=0966 or amount=9660]", "Correct error message");
 };
 
 subtest 'Refund error test' => sub {
@@ -127,6 +127,6 @@ subtest 'Refund error test' => sub {
 	ok (!$response->wasSuccessful(), "Failing refund!")
 		or diag("Refund did not fail..: ".Dumper($response));
 
-	is ($response->getMerchantErrorMessage(), "TestAcquirer[capture_amount=9.67 case]", "Correct error message");
+	is ($response->getMerchantErrorMessage(), "TestAcquirer[pan=0967 or amount=9670]", "Correct error message");
 
 };

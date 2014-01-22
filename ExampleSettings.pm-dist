@@ -2,10 +2,10 @@ package Pensio::Examples;
 
 use strict;
 
-our $installation_url = 'http://cigateway.mars.pensio.com';
-our $terminal         = 'Pensio Soap Test Terminal';
-our $username         = 'shop api'; 
-our $password         = 'testpassword'; 
+our $installation_url = 'https://testgateway.pensio.com';
+our $terminal         = 'MerchantName Test Terminal';
+our $username         = 'api@merchantdomain.com';
+our $password         = 'xxx';
 our $shared_secret    = 'xxx';
 
 sub getRandomOrderId {

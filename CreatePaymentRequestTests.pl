@@ -18,7 +18,7 @@ $api->setLogger(new ExampleStdoutLogger());
 my $request = new Pensio::Request::CreatePaymentRequestRequest(
 	amount=>2.33, 
 	orderId=> Pensio::Examples::getRandomOrderId(),
-	terminal=>'Pensio Test Terminal',
+	terminal=>$terminal,
 	currency=>'EUR',
 	
 );
@@ -34,7 +34,7 @@ note($response->getUrl());
 my $request = new Pensio::Request::CreatePaymentRequestRequest(
 	amount=>2.33, 
 	orderId=> Pensio::Examples::getRandomOrderId(),
-	terminal=>'Pensio Test Terminal',
+	terminal=>$terminal,
 	currency=>'EUR',
 	language=>"da",
 	type=>'paymentAndCapture',

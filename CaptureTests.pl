@@ -24,7 +24,7 @@ sub initiatePayment {
 	my $request = new Pensio::Request::InitiatePaymentRequest(
 		amount=>2.33, 
 		orderId=>"capture_".Pensio::Examples::getRandomOrderId(),
-		terminal=>'Pensio Test Terminal',
+		terminal=>$terminal,
 		currency=>'EUR',
 		cardnum=>$cardnum,
 		emonth=>'03',
