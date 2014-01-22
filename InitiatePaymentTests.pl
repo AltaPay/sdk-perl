@@ -15,10 +15,13 @@ my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
 
 sub initiatePayment {
-	my ($cardnum, $fraudService) = @_;
+	my ($cardnum, $localTerminal, $fraudService) = @_;
 	
 	if(not defined $cardnum) {
 		$cardnum = '4111000011110000';
+	}
+	if(not defined $localTerminal) {
+	    $localTerminal = $terminal;
 	}
 	
 	if(not defined $fraudService) {
@@ -28,7 +31,7 @@ sub initiatePayment {
 	my $request = new Pensio::Request::InitiatePaymentRequest(
 		amount=>2.33, 
 		orderId=>"capture_".Pensio::Examples::getRandomOrderId(),
-		terminal=>$terminal,
+		terminal=>$localTerminal,
 		currency=>'EUR',
 		cardnum=>$cardnum,
 		emonth=>'03',
@@ -118,7 +121,7 @@ subtest 'Initiate 3d secure payment test' => sub {
 };
 
 subtest 'Initiate with fraud check test' => sub {
-	my $initiateResponse = initiatePayment('4170000000000000','test');
+	my $initiateResponse = initiatePayment('4170000000000000',$terminal,'test');
 	
 	ok ($initiateResponse->wasSuccessful(), "Initiate success!")
 		or diag("Initiate was not errored..: ",Dumper($initiateResponse));
