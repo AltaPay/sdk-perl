@@ -1,0 +1,27 @@
+<project name="PensioPerlAPI" default="Build">
+
+    <target name="-InitializeRelease">
+        <!-- Calculate the revision -->
+        <exec executable="sh" outputProperty="pensio.resources.revision">
+            <arg value="-c" />
+            <arg value="svn info | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'" />
+        </exec>
+    </target>
+
+    <target name="Build" depends="-InitializeRelease">
+
+        <tar destfile="dist/PensioPerlAPI_r${pensio.resources.revision}.tgz" compression="gzip" longfile="gnu">
+            <tarfileset dir="." prefix="PensioPerlAPI_r${pensio.resources.revision}">
+                <include name="Pensio/**/*" />
+                <include name="*.pl" />
+                <include name="*.pm" />
+
+                <exclude name="ExampleSettings.pm" />
+                <include name="ExampleSettings.pm-dist"/>
+
+                <exclude name="**/.svn" />
+                <exclude name="**/.svn/**/*" />
+            </tarfileset>
+        </tar>
+    </target>
+</project>
