@@ -5,8 +5,8 @@ use strict;
 our $installation_url = 'https://testgateway.pensio.com';
 our $terminal         = 'MerchantName Test Terminal';
 our $username         = 'api@merchantdomain.com';
-our $password         = 'xxx';
-our $shared_secret    = 'xxx';
+our $password         = 'password-xxx';
+our $shared_secret    = 'secret-xxx';
 
 sub getRandomOrderId {
 	my @chars = ("A".."Z", "a".."z");
