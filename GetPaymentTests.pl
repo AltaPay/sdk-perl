@@ -36,9 +36,9 @@ sub initiatePayment {
 	return $initiateResponse->getPrimaryPayment()->getId();
 }
 
-sleep(3);
-
 my $request = new Pensio::Request::GetPaymentRequest(paymentId=>initiatePayment());
+
+sleep(3);
 
 my $response = $api->getPayment(request => $request);
 
