@@ -42,8 +42,8 @@ my $xml = <<END;
 				<BlacklistToken>bdb581c51b07b3e3526ab46dc1537e8ef9c10726
 				</BlacklistToken>
 				<ShopOrderId>testOrder</ShopOrderId>
-				<Shop>Pensio Functional Test Shop</Shop>
-				<Terminal>Pensio Test Terminal</Terminal>
+				<Shop>AltaPay Functional Test Shop</Shop>
+				<Terminal>AltaPay Test Terminal</Terminal>
 				<TransactionStatus>captured</TransactionStatus>
 				<MerchantCurrency>978</MerchantCurrency>
 				<CardHolderCurrency>978</CardHolderCurrency>
@@ -123,8 +123,8 @@ my $xml = <<END;
 				<BlacklistToken>bdb581c51b07b3e3526ab46dc1537e8ef9c10726
 				</BlacklistToken>
 				<ShopOrderId>testOrder</ShopOrderId>
-				<Shop>Pensio Functional Test Shop</Shop>
-				<Terminal>Pensio Test Terminal</Terminal>
+				<Shop>AltaPay Functional Test Shop</Shop>
+				<Terminal>AltaPay Test Terminal</Terminal>
 				<TransactionStatus>captured</TransactionStatus>
 				<MerchantCurrency>978</MerchantCurrency>
 				<CardHolderCurrency>978</CardHolderCurrency>

@@ -95,7 +95,7 @@ subtest 'Initiate regular errored payment test' => sub {
 
 subtest 'Initiate 3d secure payment test' => sub {
 	
-	$response = initiatePayment('4170000000000568', 'Pensio Test 3DSecure Terminal');
+	$response = initiatePayment('4170000000000568', 'AltaPay Test 3DSecure Terminal');
 	
 	if($response->was3DSecure())
 	{
