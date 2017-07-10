@@ -120,6 +120,16 @@ sub capture {
 	return new Pensio::Response::PensioCaptureResponse($xml_as_hash);
 }
 
+sub updateOrder {
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::Request::UpdateOrderRequest', required => 1 },
+	);
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/updateOrder', $request->parameters());
+	return new Pensio::Response::PensioCaptureResponse($xml_as_hash);
+}
+
 sub refund {
 	my ($self, $request) = validated_list(
 		\@_,
