@@ -8,9 +8,6 @@ use Pensio::Request::OrderLines;
 
 use Hash::Merge qw (merge);
 
-#require Pensio::Request::AmountBasedPaymentRequest;
-#extends 'Pensio::Request::AmountBasedPaymentRequest';
-
 has 'paymentId' => (
 	isa => 'Str', 
 	is => 'rw',
@@ -38,7 +35,7 @@ sub parameters {
 	
 	my ($self) = @_;
 	
-	my $params = {}; #$self->Pensio::Request::AmountBasedPaymentRequest::parameters();
+	my $params = {};
 	
 	$params->{payment_id} = $self->paymentId();
 	
