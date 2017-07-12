@@ -17,9 +17,14 @@ sub parameters {
 	my ($self) = @_;
 	
 	my $params = $self->Pensio::Request::AbstractPaymentRequest::parameters();
+		
 	$params->{transactionId} = $params->{transaction_id};
+	
 	delete $params->{transaction_id};
-	$params->{paRes} = $self->paRes();
+	
+	$params->{"3DSecureRegular[MD]"} = $params->{transactionId};
+	$params->{"3DSecureRegular[paRes]"} = $self->paRes();
+	
 	return $params;
 }
 
