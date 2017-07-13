@@ -20,6 +20,18 @@ has 'merchant_error_message' => (
       reader => 'getMerchantErrorMessage',
 );
 
+has 'card_holder_error_message' => (
+      is  => 'rw',
+      isa => 'Maybe[Str]',
+      reader => 'getCardHolderErrorMessage',
+);
+
+has 'card_holder_message_must_be_shown' => (
+      is  => 'rw',
+      isa => 'Maybe[Str]',
+      reader => 'getCardHolderMessageMustBeShown',
+);
+
 has payments => (
     is => 'rw',
     isa => 'ArrayRef[Pensio::Response::PensioAPIPayment]',
@@ -56,6 +68,14 @@ sub BUILD
 	if(defined $xml->{Body}->{MerchantErrorMessage})
 	{
 		$self->merchant_error_message($xml->{Body}->{MerchantErrorMessage});
+	}
+	if(defined $xml->{Body}->{CardHolderErrorMessage})
+	{
+		$self->card_holder_error_message($xml->{Body}->{CardHolderErrorMessage});
+	}
+	if(defined $xml->{Body}->{CardHolderMessageMustBeShown})
+	{
+		$self->card_holder_message_must_be_shown($xml->{Body}->{CardHolderMessageMustBeShown});
 	}
 	return $self;
 }

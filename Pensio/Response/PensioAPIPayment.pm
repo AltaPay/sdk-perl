@@ -84,4 +84,10 @@ sub getId()
 	return $self->xml->{TransactionId};
 }
 
+sub getReasonCode()
+{
+	my ($self) = @_;
+	return $self->xml->{ReasonCode};
+}
+
 1;

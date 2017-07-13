@@ -7,7 +7,7 @@ use ExampleStdoutLogger;
 use Data::Dumper;
 use Pensio::PensioCallbackHandler;
 use Test::Exception;
-use Test::More tests => 11;
+use Test::More tests => 13;
 
 my $callbackHandler = new Pensio::PensioCallbackHandler();
 
@@ -328,3 +328,37 @@ my $xml = <<END;
 END
 
 lives_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for verifyCard authType');
+
+subtest 'Read Card Holder elements from XML' => sub {
+	
+	my $xml = readfile('xml/CardHolderMessageMustBeShownFalse.xml');	
+ 	my $response = $callbackHandler->parseXmlResponse($xml);
+	ok ($response->getCardHolderMessageMustBeShown() eq "false", "Check CardHolderMessageMustBeShown is equal to false");
+	ok ($response->getCardHolderErrorMessage() eq "Card Declined", "Read CardHolderErrorMessage");
+
+	$xml = readfile('xml/CardHolderMessageMustBeShownTrue.xml');	
+ 	$response = $callbackHandler->parseXmlResponse($xml);
+	ok ($response->getCardHolderMessageMustBeShown() eq "true", "Check CardHolderMessageMustBeShown is equal to true");
+	
+};
+
+subtest 'Read ReasonCode from XML' => sub {
+	
+	my $xml = readfile('xml/ReasonCode.xml');	
+ 	my $response = $callbackHandler->parseXmlResponse($xml);
+		
+	ok ($response->getPrimaryPayment()->getReasonCode() eq "NONE", "Read ReasonCode element");
+	
+};
+
+sub readfile {
+	
+	local $/;
+	
+	my ($file) = @_;
+	open(FILE, $file) or die "Can't read file 'filename' [$!]\n";  
+	my $xml = <FILE>; 
+	close (FILE); 
+	
+	return $xml;
+}
