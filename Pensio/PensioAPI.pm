@@ -170,4 +170,14 @@ sub createPaymentRequest {
 	return new Pensio::Response::PensioCreatePaymentRequestResponse($xml_as_hash);
 }
 
+sub reservation {
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::Request::ReservationRequest', required => 1 },
+	);
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/reservation', $request->parameters());
+	return new Pensio::Response::ReservationResponse($xml_as_hash);
+}
+
 1;
