@@ -86,6 +86,18 @@ sub wasSuccessful
     return $self->getErrorCode() == '0' && $self->result eq 'Success';
 }
 
+sub wasDeclined
+{
+	my ($self) = @_;
+    return $self->getErrorCode() == '0' && $self->result eq 'Failed';
+}
+
+sub wasErroneous
+{
+	my ($self) = @_;
+    return $self->getErrorCode() != '0' || $self->result eq 'Error';
+}
+
 sub getPrimaryPayment
 {
 	my ($self) = @_;

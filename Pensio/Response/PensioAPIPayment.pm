@@ -90,4 +90,10 @@ sub getReasonCode()
 	return $self->xml->{ReasonCode};
 }
 
+sub getPaymentInfo()
+{
+	my ($self, $key) = @_;
+	return $self->xml->{PaymentInfos}->{PaymentInfo}->{$key}->{content};
+}
+
 1;

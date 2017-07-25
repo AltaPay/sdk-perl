@@ -3,7 +3,6 @@ package Pensio::Request::ReservationRequest;
 use strict;
 use warnings;
 use Moose;
-use Pensio::Request::PaymentRequestConfig;
 use Hash::Merge qw (merge);
 use Moose::Util::TypeConstraints;
 
@@ -61,8 +60,6 @@ sub BUILD
 {
 	my ($self, $xml) = @_;
 	
-	$self->config(new Pensio::Request::PaymentRequestConfig());
-	
 	return $self;
 }
 
@@ -78,8 +75,6 @@ sub parameters {
 	$params->{"cvc"} = $self->cvc();
 	$params->{"payment_source"} = $self->paymentSource();
 	$params->{"surcharge"} = $self->surcharge();
-	
-	$params = merge($params, $self->config()->parameters());
 	
 	return $params;
 }

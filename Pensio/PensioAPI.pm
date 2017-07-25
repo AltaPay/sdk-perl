@@ -16,6 +16,7 @@ use Pensio::Response::PensioRefundResponse;
 use Pensio::Response::PensioInitiatePaymentResponse;
 use Pensio::Response::PensioCreatePaymentRequestResponse;
 use Pensio::Response::PensioVerify3DSecureResponse;
+use Pensio::Response::ReservationResponse;
 use Pensio::http::HTTPUtilRequest;
 
 
