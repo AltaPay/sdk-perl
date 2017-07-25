@@ -18,7 +18,7 @@ $api->setLogger(new ExampleStdoutLogger());
 
 # CAPTURE: =============================================================================
 
-my $paymentId = '157'; # PUT A PAYMENT ID FROM A PREVIOUSLY CREATED ORDER HERE
+my $paymentId = '1424'; # PUT A PAYMENT ID FROM A PREVIOUSLY CREATED ORDER HERE
 	
 my $request = new Pensio::Request::CaptureRequest(paymentId=>$paymentId);
 	
@@ -49,22 +49,6 @@ $lines->add(
 );
 
 $request = new Pensio::Request::UpdateOrderRequest (paymentId=>$paymentId, orderLines=>$lines);
-
-$request->orderLines()->add(
-	description => "description 1",
-	itemId => "id 01",
-	quantity => -1,
-	unitPrice => 1.1,
-	goodsType => "item"
-);
-
-$request->orderLines()->add(
-	description => "new item",
-	itemId => "new id",
-	quantity => 1,
-	unitPrice => 1.1,
-	goodsType => "item"
-);
 
 $response = $api->updateOrder(request => $request);
 

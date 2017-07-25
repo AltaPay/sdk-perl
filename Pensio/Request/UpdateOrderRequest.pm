@@ -24,8 +24,6 @@ sub BUILD
 {
 	my ($self, $xml) = @_;
 	
-	$self->orderLines(new Pensio::Request::OrderLines());
-	
 	return $self;
 }
 
