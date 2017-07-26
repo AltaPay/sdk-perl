@@ -7,7 +7,7 @@ use ExampleStdoutLogger;
 use Data::Dumper;
 use Pensio::PensioCallbackHandler;
 use Test::Exception;
-use Test::More tests => 13;
+use Test::More tests => 14;
 
 my $callbackHandler = new Pensio::PensioCallbackHandler();
 
@@ -348,6 +348,15 @@ subtest 'Read ReasonCode from XML' => sub {
  	my $response = $callbackHandler->parseXmlResponse($xml);
 		
 	ok ($response->getPrimaryPayment()->getReasonCode() eq "NONE", "Read ReasonCode element");
+	
+};
+
+subtest 'Read PaymentId from XML' => sub {
+	
+	my $xml = readfile('xml/ReasonCode.xml');	
+ 	my $response = $callbackHandler->parseXmlResponse($xml);
+		
+	ok ($response->getPrimaryPayment()->getPaymentId() eq "17794956-9bb6-4854-9712-bce5931e6e3a", "Read PaymentId element");
 	
 };
 
