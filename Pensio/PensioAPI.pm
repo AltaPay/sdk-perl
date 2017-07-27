@@ -17,6 +17,7 @@ use Pensio::Response::PensioInitiatePaymentResponse;
 use Pensio::Response::PensioCreatePaymentRequestResponse;
 use Pensio::Response::PensioVerify3DSecureResponse;
 use Pensio::Response::ReservationResponse;
+use Pensio::Response::CreateInvoiceReservationResponse;
 use Pensio::http::HTTPUtilRequest;
 
 
@@ -169,6 +170,16 @@ sub createPaymentRequest {
 	
 	my $xml_as_hash  = $self->_sendRequest('/merchant/API/createPaymentRequest', $request->parameters());
 	return new Pensio::Response::PensioCreatePaymentRequestResponse($xml_as_hash);
+}
+
+sub createInvoiceReservation {
+	my ($self, $request) = validated_list(
+		\@_,
+		request => { isa => 'Pensio::Request::CreateInvoiceReservationRequest', required => 1 },
+	);
+	
+	my $xml_as_hash  = $self->_sendRequest('/merchant/API/createInvoiceReservation', $request->parameters());
+	return new Pensio::Response::CreateInvoiceReservationResponse($xml_as_hash);
 }
 
 sub reservation {
