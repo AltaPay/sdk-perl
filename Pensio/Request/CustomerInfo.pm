@@ -39,13 +39,37 @@ has 'bankPhone' => (
 	required => 0,
 );
 
-has 'bankPhone' => (
-	isa => 'Str', 
-	is => 'rw',
-	required => 0,
+has 'gender' => (
+    isa => enum([ qw[ F M male female ] ]),
+    is  => 'rw',
+    required => 0,
 );
 
 has 'ipAddress' => (
+    isa => 'Str',
+    is  => 'rw',
+    required => 0,
+);
+
+has 'clientSessionId' => (
+    isa => 'Str',
+    is  => 'rw',
+    required => 0,
+);
+
+has 'clientAcceptLanguage' => (
+    isa => 'Str',
+    is  => 'rw',
+    required => 0,
+);
+
+has 'clientUserAgent' => (
+    isa => 'Str',
+    is  => 'rw',
+    required => 0,
+);
+
+has 'clientForwardedIp' => (
     isa => 'Str',
     is  => 'rw',
     required => 0,
@@ -85,8 +109,12 @@ sub parameters {
 	$params->{"customer_info[customer_phone]"} = $self->customerPhone();
 	$params->{"customer_info[bank_name]"} = $self->bankName();
 	$params->{"customer_info[bank_phone]"} = $self->bankPhone();
+	$params->{"customer_info[gender]"}  = $self->gender();
 	$params->{"customer_info[client_ip]"}  = $self->ipAddress();
-	
+	$params->{"customer_info[client_session_id]"}  = $self->clientSessionId();
+	$params->{"customer_info[client_accept_language]"}  = $self->clientAcceptLanguage();
+	$params->{"customer_info[client_user_agent]"}  = $self->clientUserAgent();
+	$params->{"customer_info[client_forwarded_ip]"}  = $self->clientForwardedIp();	
 	
 	$params = merge($params, $self->billingAddress()->parameters());
 	

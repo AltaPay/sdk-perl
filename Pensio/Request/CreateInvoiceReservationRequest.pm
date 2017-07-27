@@ -25,12 +25,6 @@ has 'bankCode' => (
 	required => 0
 );
 
-has 'paymentSource' => (
-	isa => 'Str', 
-	is => 'rw',
-	required => 0
-);
-
 has 'organisationNumber' => (
 	isa => 'Str', 
 	is => 'rw',
@@ -64,7 +58,6 @@ sub parameters {
 
 	$params->{"accountNumber"} = $self->accountNumber();
 	$params->{"bankCode"} = $self->bankCode();
-	$params->{"payment_source"} = $self->paymentSource();
 	$params->{"organisationNumber"} = $self->organisationNumber();
 	$params->{"personalIdentifyNumber"} = $self->personalIdentifyNumber();
 	$params->{"birthDate"} = $self->birthDate();

@@ -43,12 +43,6 @@ has 'cvc' => (
 	required => 0
 );
 
-has 'paymentSource' => (
-	isa => enum( [ qw(eCommerce mobi moto mail_order telephone_order) ] ), 
-	is => 'rw',
-	required => 0
-);
-
 has 'surcharge' => (
 	isa => 'Str', 
 	is => 'rw',

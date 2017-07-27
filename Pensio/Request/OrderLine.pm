@@ -38,6 +38,12 @@ has 'taxPercent' => (
 	required => 0,
 );
 
+has 'taxAmount' => (
+	isa => 'Num', 
+	is => 'rw',
+	required => 0,
+);
+
 has 'unitCode' => (
 	isa => 'Str', 
 	is => 'rw',
@@ -57,7 +63,13 @@ has 'discount' => (
 );
 
 has 'goodsType' => (
-	isa => enum([qw(shipment handling item)]), 
+	isa => enum([qw(shipment handling item refund)]), 
+	is => 'rw',
+	required => 0,
+);
+
+has 'imageUrl' => (
+	isa => 'Str', 
 	is => 'rw',
 	required => 0,
 );
@@ -70,11 +82,13 @@ sub parameters {
 	$params->{"orderLines[".$self->key()."][description]"} = $self->description();
 	$params->{"orderLines[".$self->key()."][itemId]"} = $self->itemId();
 	$params->{"orderLines[".$self->key()."][quantity]"} = $self->quantity();
-	$params->{"orderLines[".$self->key()."][taxPercent]"} = $self->taxPercent();
-	$params->{"orderLines[".$self->key()."][unitCode]"} = $self->unitCode();
 	$params->{"orderLines[".$self->key()."][unitPrice]"} = $self->unitPrice();
+	$params->{"orderLines[".$self->key()."][taxPercent]"} = $self->taxPercent();
+	$params->{"orderLines[".$self->key()."][taxAmount]"} = $self->taxAmount();
+	$params->{"orderLines[".$self->key()."][unitCode]"} = $self->unitCode();
 	$params->{"orderLines[".$self->key()."][discount]"} = $self->discount();
 	$params->{"orderLines[".$self->key()."][goodsType]"} = $self->goodsType();
+	$params->{"orderLines[".$self->key()."][imageUrl]"} = $self->imageUrl();
 	
 	return $params;
 }

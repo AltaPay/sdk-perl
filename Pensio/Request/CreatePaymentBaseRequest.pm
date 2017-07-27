@@ -85,6 +85,12 @@ has 'orderLines' => (
 	coerce => 1,
 );
 
+has 'paymentSource' => (
+	isa => enum( [ qw(eCommerce mobi moto mail_order telephone_order) ] ), 
+	is => 'rw',
+	required => 0
+);
+
 sub _build_orderLines {
 	my ($self) = @_;
 	return new Pensio::Request::OrderLines();
@@ -115,6 +121,7 @@ sub parameters {
 		fraud_service => $self->fraudService(),
 		customer_created_date => $self->customerCreatedDate(),
 		shipping_method => $self->shippingMethod(),
+		payment_source => $self->paymentSource()
 	};
 
 	if (defined $self->transactionInfo())
