@@ -67,7 +67,6 @@ sub parameters {
 	$params->{"emonth"} = $self->expiryMonth();
 	$params->{"eyear"} = $self->expiryYear();
 	$params->{"cvc"} = $self->cvc();
-	$params->{"payment_source"} = $self->paymentSource();
 	$params->{"surcharge"} = $self->surcharge();
 	
 	return $params;
