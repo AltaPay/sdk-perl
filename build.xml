@@ -1,27 +1,40 @@
-<project name="PensioPerlAPI" default="Build">
+<project name="perlsdk" default="Build">
 
-    <target name="-InitializeRelease">
-        <!-- Calculate the revision -->
-        <exec executable="sh" outputProperty="pensio.resources.revision">
-            <arg value="-c" />
-            <arg value="svn info | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'" />
-        </exec>
-    </target>
+<!-- Release variables -->
+<!--<property name="pensio.release" value="20170601" />-->
 
-    <target name="Build" depends="-InitializeRelease">
+<target name="-InitializeRelease">
+    <tstamp>
+        <format property="pensio.release" pattern="yyyyMMdd" locale="en,GB"/>
+    </tstamp>
+</target>
 
-        <tar destfile="dist/PensioPerlAPI_r${pensio.resources.revision}.tgz" compression="gzip" longfile="gnu">
-            <tarfileset dir="." prefix="PensioPerlAPI_r${pensio.resources.revision}">
-                <include name="Pensio/**/*" />
-                <include name="*.pl" />
-                <include name="*.pm" />
+<target name="SetAltaPayVersion" depends="-InitializeRelease">
+    <echo file="lib/ALTAPAY_VERSION.php">&lt;?php
+        // This file is auto-generated... do not edit by hand
+        define('ALTAPAY_VERSION', 'PERLSDK/${pensio.release}');</echo>
+</target>
 
-                <exclude name="ExampleSettings.pm" />
-                <include name="ExampleSettings.pm-dist"/>
+<target name="-ensureDist">
+    <delete dir="dist"/>
+    <mkdir dir="dist"/>
+</target>
 
-                <exclude name="**/.svn" />
-                <exclude name="**/.svn/**/*" />
-            </tarfileset>
-        </tar>
-    </target>
+<target name="Build" depends="-InitializeRelease,-ensureDist,SetAltaPayVersion">
+
+    <tar destfile="dist/PERLSDK_${pensio.release}.tgz" compression="gzip" longfile="gnu">
+        <tarfileset dir="." prefix="PerlSDK_${pensio.release}">
+            <include name="Pensio/**/*" />
+            <include name="*.pl" />
+            <include name="*.pm" />
+
+            <exclude name="ExampleSettings.pm" />
+            <include name="ExampleSettings.pm-dist"/>
+
+            <exclude name=".idea/*" />
+            <exclude name="**/.git" />
+            <exclude name="**/.git/**/*" />
+        </tarfileset>
+    </tar>
+</target>
 </project>
