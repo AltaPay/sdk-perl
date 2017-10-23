@@ -111,7 +111,8 @@ subtest 'Capture success with loads of data test' => sub {
 		unitCode => "kg",
 		unitPrice => 123.42,
 		discount => 0.42,
-		goodsType => "item"
+		goodsType => "item",
+		taxAmount => 788.99
 	);
 	
 	$request->orderLines()->add(
@@ -122,7 +123,8 @@ subtest 'Capture success with loads of data test' => sub {
 		unitCode => "",
 		unitPrice => 15423.42,
 		discount => 52.54,
-		goodsType => "item"
+		goodsType => "item",
+		taxAmount => 55.60
 	);
 	
 	my $response = $api->capture(request => $request);

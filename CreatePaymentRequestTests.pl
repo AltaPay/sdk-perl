@@ -14,7 +14,6 @@ use Test::More tests => 2;
 my $api = new Pensio::PensioAPI($installation_url, $username, $password);
 $api->setLogger(new ExampleStdoutLogger());
 
-
 my $request = new Pensio::Request::CreatePaymentRequestRequest(
 	amount=>2.33, 
 	orderId=> Pensio::Examples::getRandomOrderId(),
@@ -38,7 +37,7 @@ my $request = new Pensio::Request::CreatePaymentRequestRequest(
 	currency=>'EUR',
 	language=>"da",
 	type=>'paymentAndCapture',
-	creditCardToken=>'hat',
+	#creditCardToken=>'hat',
 	saleReconciliationIdentifier=>'testidentifier',
 	cookie=>'PHPSESSID=asdfasdfdf23; mycookie=mycookievalue',
 	fraudService=>'test',
@@ -86,7 +85,8 @@ $request->orderLines()->add(
 	unitCode => "kg",
 	unitPrice => 123.42,
 	discount => 0.42,
-	goodsType => "item"
+	goodsType => "item",
+	taxAmount => 44.33
 );
 
 $request->orderLines()->add(
@@ -97,7 +97,8 @@ $request->orderLines()->add(
 	unitCode => "",
 	unitPrice => 15423.42,
 	discount => 52.54,
-	goodsType => "item"
+	goodsType => "item",
+	taxAmount => 65.55
 );
 
 $response = $api->createPaymentRequest(request => $request);
