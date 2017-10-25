@@ -10,9 +10,13 @@
 </target>
 
 <target name="SetAltaPayVersion" depends="-InitializeRelease">
-    <echo file="lib/ALTAPAY_VERSION.php">&lt;?php
-        // This file is auto-generated... do not edit by hand
-        define('ALTAPAY_VERSION', 'PERLSDK/${pensio.release}');</echo>
+    <echo file="Pensio/AltaPayVersion.pm">
+        package Pensio::AltaPayVersion;
+        use strict;
+
+        our $VERSION = '${pensio.release}';
+
+    </echo>
 </target>
 
 <target name="-ensureDist">

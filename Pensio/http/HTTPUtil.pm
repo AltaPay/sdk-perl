@@ -6,6 +6,7 @@ use HTML::Entities;
 use Encode;
 use LWP::UserAgent;
 use XML::Simple;
+use Pensio::AltaPayVersion;
 
 sub new {
 	$class = shift;
@@ -73,6 +74,7 @@ sub _POST {
     my $req     = HTTP::Request->new(POST => $request->url);
 
     $req->content_type("application/x-www-form-urlencoded");
+    $req ->header('x-altapay-client-version' => 'PEARLSDK/'.$Pensio::AltaPayVersion::VERSION);
     $req->content($content);
     $req->authorization_basic($request->username, $request->password);
 
