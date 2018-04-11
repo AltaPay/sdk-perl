@@ -168,4 +168,6 @@ subtest 'Test invoice reservation request with all parameters' => sub {
 	
 	ok( $request->transactionInfo()->{info1} eq $response->getPrimaryPayment()->getPaymentInfo('info1'));
 	ok( $request->transactionInfo()->{info2} eq $response->getPrimaryPayment()->getPaymentInfo('info2'));
+
+	ok( "Mobi" eq $response->getPrimaryPayment->xml->{PaymentSource})
 };
