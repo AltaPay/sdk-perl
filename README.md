@@ -2,6 +2,14 @@
 
 For integrating Perl projects with the AltaPay gateway.
 
+## How to run unit tests
+
+Update [ExampleSettings.pm](ExampleSettings.pm) file with the actual gateway and terminal credentials.
+
+Run the below command to run the tests.
+
+    perl TestsSuite.pl
+
 ## Changelog
 
 See [Changelog](CHANGELOG.md) for all the release notes.
