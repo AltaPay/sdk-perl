@@ -23,7 +23,7 @@ sub logRequest
 	$self->{counter} = $self->{counter} + 1;
 	
 	my $cleanParams        = {};
-	foreach my $key (keys $params)
+	foreach my $key (keys %$params)
 	{
 		if(defined $params->{$key})
 		{

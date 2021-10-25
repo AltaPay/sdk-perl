@@ -1,8 +1,6 @@
 #!/usr/bin/perl
-
 package Pensio::Examples;
 
-use ExampleSettings;
 use ExampleStdoutLogger;
 use Data::Dumper;
 use Pensio::PensioCallbackHandler;
@@ -87,10 +85,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-lives_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Response was parsed correctly');
-
-
-
+lives_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Response was parsed correctly');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -168,8 +163,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Do not accept subscriptionAndCapture auth type, as the response does not support this yet');
-
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Do not accept subscriptionAndCapture auth type, as the response does not support this yet');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -183,7 +177,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no header');
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no header');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -200,7 +194,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no error code in the header');
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no error code in the header');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -213,7 +207,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no body');
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no body');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -228,8 +222,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no Transactions tag in body');
-
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no Transactions tag in body');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -246,8 +239,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no Transaction tag in the Transactions tag in the body');
-
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if there is no Transaction tag in the Transactions tag in the body');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -264,7 +256,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-dies_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if transaction does not have an auth type');
+dies_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'Die if transaction does not have an auth type');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -285,7 +277,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-lives_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for paymentAndCapture authType');
+lives_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for paymentAndCapture authType');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -306,7 +298,7 @@ my $xml = <<END;
 </APIResponse>
 END
 
-lives_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for subscription authType');
+lives_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for subscription authType');
 
 my $xml = <<END;
 <?xml version="1.0"?>
@@ -327,47 +319,47 @@ my $xml = <<END;
 </APIResponse>
 END
 
-lives_ok ( sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for verifyCard authType');
+lives_ok(sub { my $response = $callbackHandler->parseXmlResponse($xml); }, 'If all required tags are there pass for verifyCard authType');
 
 subtest 'Read Card Holder elements from XML' => sub {
-	
-	my $xml = readfile('xml/CardHolderMessageMustBeShownFalse.xml');	
- 	my $response = $callbackHandler->parseXmlResponse($xml);
-	ok ($response->getCardHolderMessageMustBeShown() eq "false", "Check CardHolderMessageMustBeShown is equal to false");
-	ok ($response->getCardHolderErrorMessage() eq "Card Declined", "Read CardHolderErrorMessage");
 
-	$xml = readfile('xml/CardHolderMessageMustBeShownTrue.xml');	
- 	$response = $callbackHandler->parseXmlResponse($xml);
-	ok ($response->getCardHolderMessageMustBeShown() eq "true", "Check CardHolderMessageMustBeShown is equal to true");
-	
+    my $xml      = readfile('xml/CardHolderMessageMustBeShownFalse.xml');
+    my $response = $callbackHandler->parseXmlResponse($xml);
+    ok($response->getCardHolderMessageMustBeShown() eq "false",   "Check CardHolderMessageMustBeShown is equal to false");
+    ok($response->getCardHolderErrorMessage() eq "Card Declined", "Read CardHolderErrorMessage");
+
+    $xml      = readfile('xml/CardHolderMessageMustBeShownTrue.xml');
+    $response = $callbackHandler->parseXmlResponse($xml);
+    ok($response->getCardHolderMessageMustBeShown() eq "true", "Check CardHolderMessageMustBeShown is equal to true");
+
 };
 
 subtest 'Read ReasonCode from XML' => sub {
-	
-	my $xml = readfile('xml/ReasonCode.xml');	
- 	my $response = $callbackHandler->parseXmlResponse($xml);
-		
-	ok ($response->getPrimaryPayment()->getReasonCode() eq "NONE", "Read ReasonCode element");
-	
+
+    my $xml      = readfile('xml/ReasonCode.xml');
+    my $response = $callbackHandler->parseXmlResponse($xml);
+
+    ok($response->getPrimaryPayment()->getReasonCode() eq "NONE", "Read ReasonCode element");
+
 };
 
 subtest 'Read PaymentId from XML' => sub {
-	
-	my $xml = readfile('xml/ReasonCode.xml');	
- 	my $response = $callbackHandler->parseXmlResponse($xml);
-		
-	ok ($response->getPrimaryPayment()->getPaymentId() eq "17794956-9bb6-4854-9712-bce5931e6e3a", "Read PaymentId element");
-	
+
+    my $xml      = readfile('xml/ReasonCode.xml');
+    my $response = $callbackHandler->parseXmlResponse($xml);
+
+    ok($response->getPrimaryPayment()->getPaymentId() eq "17794956-9bb6-4854-9712-bce5931e6e3a", "Read PaymentId element");
+
 };
 
 sub readfile {
-	
-	local $/;
-	
-	my ($file) = @_;
-	open(FILE, $file) or die "Can't read file 'filename' [$!]\n";  
-	my $xml = <FILE>; 
-	close (FILE); 
-	
-	return $xml;
+
+    local $/;
+
+    my ($file) = @_;
+    open(FILE, $file) or die "Can't read file 'filename' [$!]\n";
+    my $xml = <FILE>;
+    close(FILE);
+
+    return $xml;
 }

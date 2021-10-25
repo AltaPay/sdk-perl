@@ -8,8 +8,8 @@ require Pensio::Response::PensioAbstractResponse;
 extends 'Pensio::Response::PensioAbstractResponse';
 
 has 'result' => (
-      is  => 'rw',
-      isa => 'Maybe[Str]',
+    is  => 'rw',
+    isa => 'Maybe[Str]',
 );
 
 sub BUILD

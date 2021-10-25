@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 package Pensio::Examples;
 
 use ExampleSettings;
@@ -8,40 +7,38 @@ use Pensio::PensioAPI;
 use Pensio::Request::GetPaymentRequest;
 use Pensio::Request::InitiatePaymentRequest;
 use Data::Dumper;
-use Test::More tests=>2;
+use Test::More tests => 2;
 
-
-my $api = new Pensio::PensioAPI($installation_url, $username, $password);
+my $api_settings_obj = ExampleSettings->new();
+my $api = new Pensio::PensioAPI($api_settings_obj->installation_url, $api_settings_obj->username, $api_settings_obj->password);
 $api->setLogger(new ExampleStdoutLogger());
-
-
 
 sub initiatePayment {
 
-	my $request = new Pensio::Request::InitiatePaymentRequest(
-		amount=>2.33, 
-		orderId=>"release_".Pensio::Examples::getRandomOrderId(),
-		terminal=>$terminal,
-		currency=>'EUR',
-		cardnum=>'4111000011110000',
-		emonth=>'03',
-		eyear=>'2042',
-	);
-	
-	my $initiateResponse = $api->initiatePayment(request => $request);
-	
-	ok ($initiateResponse->wasSuccessful(), "Successfull initiate!")
-		or diag("Initiate before capture failed..: ",Dumper($initiateResponse));
-		
-	return $initiateResponse->getPrimaryPayment()->getId();
+    my $request = new Pensio::Request::InitiatePaymentRequest(
+        amount   => 2.33,
+        orderId  => "release_" . $api_settings_obj->getRandomOrderId(),
+        terminal => $api_settings_obj->altapay_test_terminal,
+        currency => 'EUR',
+        cardnum  => '4111000011110000',
+        emonth   => '03',
+        eyear    => '2042',
+    );
+
+    my $initiateResponse = $api->initiatePayment(request => $request);
+
+    ok($initiateResponse->wasSuccessful(), "Successful PaymentRequest initiate!")
+      or diag("Initiate before capture failed..: ", Dumper($initiateResponse));
+
+    return $initiateResponse->getPrimaryPayment()->getId();
 }
 
-my $request = new Pensio::Request::GetPaymentRequest(paymentId=>initiatePayment());
+my $request = new Pensio::Request::GetPaymentRequest(paymentId => initiatePayment());
 
 sleep(3);
 
 my $response = $api->getPayment(request => $request);
 
-ok ($response->wasSuccessful(), "Successfull get payment!")
-	or diag("get payment failed: ",Dumper($response));
+ok($response->wasSuccessful(), "Successful get payment!")
+  or diag("get payment failed: ", Dumper($response));
 
