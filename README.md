@@ -5,7 +5,7 @@ For integrating Perl projects with the AltaPay gateway.
 ## API Methods
 
 | Supported Methods         | Methods Not Supported Yet |
-| ------------------------- | ------------------------- |
+|:------------------------- | ------------------------- |
 | createPaymentRequest      | calculateSurcharge        |
 | captureReservation        | chargeSubscription        |
 | createInvoiceReservation  | credit                    |
