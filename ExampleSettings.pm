@@ -5,6 +5,7 @@ use strict;
 our $installation_url              = 'https://testgateway.pensio.com';
 our $username                      = 'api@merchantdomain.com';
 our $password                      = 'password-xxx';
+
 our $altapay_klarna_terminal       = 'Merchant Klarna Terminal Name';
 our $altapay_test_terminal         = "Merchant Test Terminal Name";
 our $altapay_invoice_test_terminal = "Merchant Invoice Terminal Name";
