@@ -21,6 +21,18 @@ For integrating Perl projects with the AltaPay gateway.
 |                           | initiateGiftCardPayment   |
 |                           | testConnection            |
 
+## Dependencies
+
+Run the below commands to install the required extensions for the SDK.
+
+    cpan install XML::Simple
+    cpan install Moose
+    cpan install MooseX::Params::Validate
+    cpan install MooseX::Types
+    cpan install TAP::Formatter::JUnit
+    cpan install Hash::Merge
+    cpan install Test::Exception
+
 ## How to run unit tests
 
 Update [ExampleSettings.pm](ExampleSettings.pm) file with the actual gateway and terminal credentials.
