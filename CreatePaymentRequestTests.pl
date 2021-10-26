@@ -24,7 +24,7 @@ my $pay_request = new Pensio::Request::CreatePaymentRequestRequest(
 my $response = $api->createPaymentRequest( request => $pay_request );
 
 ok( $response->wasSuccessful(), "Created payment request succesfully!" )
-  or diag( "Created payment request failed..: ", Dumper($response) );
+  or diag( "Create payment request failed..: ", Dumper($response) );
 
 note( $response->getUrl() );
 

@@ -50,7 +50,7 @@ sub capture {
 
     my $response = $api->capture(request => $request);
 
-    ok($response->wasSuccessful(), "Successfull capture!")
+    ok($response->wasSuccessful(), "Successful capture!")
       or diag("Capture failed..: ", Dumper($response));
 }
 
@@ -85,7 +85,7 @@ subtest 'Refund test' => sub {
 
     my $response = refund($paymentId);
 
-    ok($response->wasSuccessful(), "Successfull refund!")
+    ok($response->wasSuccessful(), "Successful refund!")
       or diag("Refund failed..: ", Dumper($response));
 };
 
@@ -97,7 +97,7 @@ subtest 'Over Refund test' => sub {
 
     my $response = refund($paymentId, 10, 1);
 
-    ok($response->wasSuccessful(), "Successfull refund!")
+    ok($response->wasSuccessful(), "Successful refund!")
       or diag("Over refund failed..: ", Dumper($response));
 };
 

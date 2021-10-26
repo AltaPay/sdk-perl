@@ -68,7 +68,7 @@ if ( $response->wasSuccessful() ) {
     print("Created payment request succesfully!\n");
 	ok($response->wasSuccessful(),"Payment created sucessfully")
 } else {
-    print("Created payment request failed..: \n" . Dumper($response));
+    print("Create payment request failed..: \n" . Dumper($response));
 }
 
 # Access the url below and use the social security number 0801363945 in the page form to complete the Klarna order

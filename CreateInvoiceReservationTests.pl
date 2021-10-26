@@ -41,7 +41,7 @@ subtest 'Test simple invoice reservation request' => sub {
 
     my $response = $api->createInvoiceReservation(request => $request);
 
-    ok($response->wasSuccessful(), "Successfull invoice reservation")
+    ok($response->wasSuccessful(), "Successful invoice reservation")
       or diag("Invoice reservation failed: ", Dumper($response));
 
     ok($request->terminal() eq $response->getPrimaryPayment()->xml()->{Terminal},     "Correct Terminal Found: " . $request->terminal());
