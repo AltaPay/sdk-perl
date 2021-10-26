@@ -71,6 +71,7 @@ sub _POST {
     my $req     = HTTP::Request->new(POST => $request->url);
 
     $req->content_type("application/x-www-form-urlencoded");
+    $req->header('x-altapay-client-version' => 'PERLSDK/' . $Pensio::AltaPayVersion::VERSION);
     $req->content($content);
     $req->authorization_basic($request->username, $request->password);
 
