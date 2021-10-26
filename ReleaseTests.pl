@@ -63,6 +63,6 @@ subtest 'Release error test' => sub {
 
     my $response = $api->release(request => new Pensio::Request::ReleaseRequest(paymentId => $paymentId));
 
-    ok(!$response->wasSuccessful(), "Errored release!")
-      or diag("Release was not errored..: ", Dumper($response));
+    ok(!$response->wasSuccessful(), "Erred release!")
+      or diag("Release was not erred..: ", Dumper($response));
 };

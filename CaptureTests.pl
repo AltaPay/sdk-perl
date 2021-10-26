@@ -87,8 +87,8 @@ subtest 'Capture error test' => sub {
 
     my $response = $api->capture(request => $request);
 
-    ok(!$response->wasSuccessful(), "Errored capture!")
-      or diag("Capture was not errored: ", Dumper($response));
+    ok(!$response->wasSuccessful(), "Erred capture!")
+      or diag("Capture was not erred: ", Dumper($response));
 };
 
 subtest 'Capture success with loads of data test' => sub {

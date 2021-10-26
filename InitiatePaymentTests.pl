@@ -84,11 +84,11 @@ subtest 'Initiate regular declined payment test' => sub {
       or diag("Initiate was not declined..: ", Dumper($initiateResponse));
 };
 
-subtest 'Initiate regular errored payment test' => sub {
+subtest 'Initiate regular erred payment test' => sub {
     my $initiateResponse = initiatePayment('4170000000000567');
 
-    ok(!$initiateResponse->wasSuccessful(), "Errored initiate!")
-      or diag("Initiate was not errored..: ", Dumper($initiateResponse));
+    ok(!$initiateResponse->wasSuccessful(), "Erred initiate!")
+      or diag("Initiate was not erred..: ", Dumper($initiateResponse));
 };
 
 subtest 'Initiate 3d secure payment test' => sub {
@@ -118,7 +118,7 @@ subtest 'Initiate with fraud check test' => sub {
     my $initiateResponse = initiatePayment('4170000000000000', $api_settings_obj->altapay_test_terminal, 'test');
 
     ok($initiateResponse->wasSuccessful(), "Initiate success!")
-      or diag("Initiate was not errored..: ", Dumper($initiateResponse));
+      or diag("Initiate was not erred..: ", Dumper($initiateResponse));
 
     my @payments = $initiateResponse->getPayments();
 
