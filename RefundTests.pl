@@ -34,7 +34,7 @@ sub initiatePayment {
 
     my $initiateResponse = $api->initiatePayment(request => $request);
 
-    ok($initiateResponse->wasSuccessful(), "Successfull initiate!")
+    ok($initiateResponse->wasSuccessful(), "Successful initiate!")
       or diag("Initiate before capture failed..: ", Dumper($initiateResponse));
 
     return $initiateResponse->getPrimaryPayment()->getId();

@@ -54,7 +54,7 @@ subtest 'Test successful reservation' => sub {
 
     my $response = $api->reservation(request => $request);
 
-    ok($response->wasSuccessful(), "Successfull reservation")
+    ok($response->wasSuccessful(), "Successful reservation")
       or diag("Reservation failed: ", Dumper($response));
 };
 
