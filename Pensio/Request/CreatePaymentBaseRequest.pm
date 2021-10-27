@@ -126,7 +126,7 @@ sub parameters {
 
 	if (defined $self->transactionInfo())
 	{
-		while((my $key, my $value) = each $self->transactionInfo())
+        while ((my $key, my $value) = each %{$self->transactionInfo()})
 		{
 			$params->{"transaction_info[".$key."]"} = $value;
 		}

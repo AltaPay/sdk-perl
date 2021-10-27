@@ -9,42 +9,41 @@ use Pensio::Request::CreatePaymentRequestRequest;
 use Data::Dumper;
 use Test::More tests => 2;
 
-
-
-my $api = new Pensio::PensioAPI($installation_url, $username, $password);
+my $api_settings_obj = ExampleSettings->new();
+my $api = new Pensio::PensioAPI($api_settings_obj->installation_url, $api_settings_obj->username, $api_settings_obj->password);
 $api->setLogger(new ExampleStdoutLogger());
 
-my $request = new Pensio::Request::CreatePaymentRequestRequest(
-	amount=>2.33, 
-	orderId=> Pensio::Examples::getRandomOrderId(),
-	terminal=>$terminal,
-	currency=>'EUR',
-	
+my $pay_request = new Pensio::Request::CreatePaymentRequestRequest(
+    amount   => 2.33,
+    orderId  => $api_settings_obj->getRandomOrderId(),
+    terminal => $api_settings_obj->altapay_test_terminal,
+    currency => 'EUR',
+
 );
 
-my $response = $api->createPaymentRequest(request => $request);
+my $response = $api->createPaymentRequest( request => $pay_request );
 
-ok ($response->wasSuccessful(), "Created payment request succesfully!")
-	or diag("Created payment request failed..: ",Dumper($response));
-	
-note($response->getUrl());
+ok( $response->wasSuccessful(), "Created payment request succesfully!" )
+  or diag( "Create payment request failed..: ", Dumper($response) );
 
+note( $response->getUrl() );
 
 my $request = new Pensio::Request::CreatePaymentRequestRequest(
-	amount=>2.33, 
-	orderId=> Pensio::Examples::getRandomOrderId(),
-	terminal=>$terminal,
-	currency=>'EUR',
-	language=>"da",
-	type=>'paymentAndCapture',
-	#creditCardToken=>'hat',
-	saleReconciliationIdentifier=>'testidentifier',
-	cookie=>'PHPSESSID=asdfasdfdf23; mycookie=mycookievalue',
-	fraudService=>'test',
-	shippingMethod=>'Military',
-	customer_created_date=>'2013-01-02',
-	organisationNumber=>'654321',
-	accountOffer=>'required',
+    amount   => 2.33,
+    orderId  => $api_settings_obj->getRandomOrderId(),
+    terminal => $api_settings_obj->altapay_test_terminal,
+    currency => 'EUR',
+    language => "da",
+    type     => 'paymentAndCapture',
+
+    #creditCardToken=>'hat',
+    saleReconciliationIdentifier => 'testidentifier',
+    cookie                => 'PHPSESSID=asdfasdfdf23; mycookie=mycookievalue',
+    fraudService          => 'test',
+    shippingMethod        => 'Military',
+    customer_created_date => '2013-01-02',
+    organisationNumber    => '654321',
+    accountOffer          => 'required',
 );
 
 $request->config()->callbackForm("http://www.form.com/");
@@ -78,33 +77,33 @@ $request->customerInfo()->billingAddress()->postalCode('12345');
 $request->customerInfo()->billingAddress()->country('DK');
 
 $request->orderLines()->add(
-	description => "Product 1",
-	itemId => "Product id 1",
-	quantity => 1.24,
-	taxPercent => 20.0,
-	unitCode => "kg",
-	unitPrice => 123.42,
-	discount => 0.42,
-	goodsType => "item",
-	taxAmount => 44.33
+    description => "Product 1",
+    itemId      => "Product id 1",
+    quantity    => 1.24,
+    taxPercent  => 20.0,
+    unitCode    => "kg",
+    unitPrice   => 123.42,
+    discount    => 0.42,
+    goodsType   => "item",
+    taxAmount   => 44.33
 );
 
 $request->orderLines()->add(
-	description => "Product 2",
-	itemId => "Product id 2",
-	quantity => 4,
-	taxPercent => 25.0,
-	unitCode => "",
-	unitPrice => 15423.42,
-	discount => 52.54,
-	goodsType => "item",
-	taxAmount => 65.55
+    description => "Product 2",
+    itemId      => "Product id 2",
+    quantity    => 4,
+    taxPercent  => 25.0,
+    unitCode    => "",
+    unitPrice   => 15423.42,
+    discount    => 52.54,
+    goodsType   => "item",
+    taxAmount   => 65.55
 );
 
-$response = $api->createPaymentRequest(request => $request);
+$response = $api->createPaymentRequest( request => $request );
 
-ok ($response->wasSuccessful(), "Created payment request with loads of data!")
-	or diag("Created payment request with loads of data failed..: ",Dumper($response));
-	
-note($response->getUrl());
+ok( $response->wasSuccessful(), "Created payment request with loads of data!" )
+  or diag( "Created payment request with loads of data failed..: ", Dumper($response) );
+
+note( $response->getUrl() );
 
