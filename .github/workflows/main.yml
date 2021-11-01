@@ -33,10 +33,9 @@ jobs:
           sed -i "s/Merchant Klarna Terminal Name/${{secrets.KLARNA_DKK_TERMINAL_NAME}}/g" ExampleSettings.pm
           sed -i "s/Merchant Invoice Terminal Name/${{secrets.INVOICE_TERMINAL_NAME}}/g" ExampleSettings.pm
           cat ExampleSettings.pm
-          export PERL5LIB=$(pwd)
       
       - name: Run Unit Tests
-        run:  perl TestsSuite.pl > result
+        run: export PERL5LIB=$(pwd) && perl TestsSuite.pl > result
       
       - name: Export Tests Result
         run: |
