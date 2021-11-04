@@ -12,7 +12,7 @@ sub user_agent {
 
     my $perl_version = $^V;
     my $version      = $VERSION;
-    my $user_agent   = "sdk-perl/$version";
+    my $user_agent   = "sdk-perl/$version Perl/$perl_version";
 
     return $user_agent;
 }
