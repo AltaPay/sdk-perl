@@ -1,0 +1,50 @@
+# This workflow will run unit tests
+
+name: Perl Unit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install SDK dependencies
+        run: |
+         sudo cpan install -T XML::Simple
+         sudo cpan install -T Moose
+         sudo cpan install -T MooseX::Params::Validate
+         sudo cpan install -T MooseX::Types
+         sudo cpan install -T TAP::Formatter::JUnit
+         sudo cpan install -T Hash::Merge
+         sudo cpan install -T Test::Exception      
+
+      - uses: actions/checkout@v2
+      - name: Update config for unit tests
+        run: |
+          sed -i "s/api@merchantdomain.com/${{secrets.GATEWAYUSER}}/g" ExampleSettings.pm
+          sed -i "s/password-xxx/${{secrets.GATEWAYPASS}}/g" ExampleSettings.pm
+          sed -i "s/Merchant Test Terminal Name/${{secrets.CC_TERMINAL_NAME}}/g" ExampleSettings.pm
+          sed -i "s/Merchant Klarna Terminal Name/${{secrets.KLARNA_DKK_TERMINAL_NAME}}/g" ExampleSettings.pm
+          sed -i "s/Merchant Invoice Terminal Name/${{secrets.INVOICE_TERMINAL_NAME}}/g" ExampleSettings.pm
+          cat ExampleSettings.pm
+      
+      - name: Run Unit Tests
+        run: export PERL5LIB=$(pwd) && perl TestsSuite.pl > result
+      
+      - name: Export Tests Result
+        run: |
+          testvar=$(tail -c 5 result)
+          echo $testvar
+          echo "RESULT=$testvar">> $GITHUB_ENV
+          echo $RESULT
+
+      - name: Evaluating Tests Result
+        if: ${{ env.RESULT != 'PASS' }}
+        run: exit 1
+        
