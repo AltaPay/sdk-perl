@@ -26,7 +26,7 @@ sub new {
         _installation_url => shift,
         _username         => shift,
         _password         => shift,
-        _useragent        => 'PensioPerlClientAPI-1.0.0',
+        _useragent        => 'sdk-perl',
         _logger           => undef,
         _http_util        => new Pensio::http::HTTPUtil(),
     };
