@@ -5,21 +5,21 @@ For integrating Perl projects with the AltaPay gateway.
 ## API Methods
 
 | Supported Methods         | Methods Not Supported Yet |
-|:------------------------- | ------------------------- |
+|:--------------------------|---------------------------|
 | createPaymentRequest      | calculateSurcharge        |
-| captureReservation        | chargeSubscription        |
-| createInvoiceReservation  | credit                    |
-| refundCapturedReservation | fundingList               |
-| releaseReservation        | fundingDownload           |
-| reservation               | getCustomReport           |
-| payments                  | getInvoiceText            |
-| initiatePayment           | getTerminals              |
-| verify3dSecure            | reserveSubscriptionCharge |
-| login                     | setupSubscription         |
-|                           | queryGiftCard             |
-|                           | issueGiftCard             |
-|                           | initiateGiftCardPayment   |
-|                           | testConnection            |
+| captureReservation        | credit                    |
+| createInvoiceReservation  | fundingList               |
+| refundCapturedReservation | fundingDownload           |
+| releaseReservation        | getCustomReport           |
+| reservation               | getInvoiceText            |
+| payments                  | getTerminals              |
+| initiatePayment           | queryGiftCard             |
+| verify3dSecure            | issueGiftCard             |
+| login                     | initiateGiftCardPayment   |
+| reserveSubscriptionCharge | testConnection            |
+| chargeSubscription        |                           |
+| setupSubscription         |                           |
+|                           |                           |
 
 ## Dependencies
 
