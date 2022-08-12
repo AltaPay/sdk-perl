@@ -63,7 +63,17 @@ has 'agreementConfig' => (
 	required => 0
 );
 
+has 'saleInvoiceNumber' => (
+	isa => 'Str',
+	is => 'rw',
+	required => 0
+);
 
+has 'salesTax' => (
+	isa => 'Num',
+	is => 'rw',
+	required => 0,
+);
 
 sub BUILD
 {
@@ -86,7 +96,9 @@ sub parameters {
 	$params->{"cookie"} = $self->cookie();
 	$params->{"sale_reconciliation_identifier"} = $self->saleReconciliationIdentifier();
 	$params->{"ccToken"} = $self->creditCardToken();
-	
+	$params->{"sale_invoice_number"} = $self->saleInvoiceNumber();
+	$params->{sales_tax} = $self->salesTax();
+
 	$params = merge($params, $self->config()->parameters());
 	$params = merge($params, $self->agreementConfig()->parameters());
 
