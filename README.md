@@ -19,7 +19,8 @@ For integrating Perl projects with the AltaPay gateway.
 | reserveSubscriptionCharge | testConnection            |
 | chargeSubscription        |                           |
 | setupSubscription         |                           |
-|                           |                           |
+| cardWallet/session        |                           |
+| cardWallet/authorize      |                           |
 
 ## Dependencies
 
