@@ -22,7 +22,8 @@ jobs:
          sudo cpan install -T MooseX::Types
          sudo cpan install -T TAP::Formatter::JUnit
          sudo cpan install -T Hash::Merge
-         sudo cpan install -T Test::Exception      
+         sudo cpan install -T Test::Exception
+         sudo cpan install -T LWP::Protocol::https
 
       - uses: actions/checkout@v2
       - name: Update config for unit tests
