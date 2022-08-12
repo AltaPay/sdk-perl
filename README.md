@@ -32,6 +32,8 @@ Run the below commands to install the required extensions for the SDK.
     cpan install TAP::Formatter::JUnit
     cpan install Hash::Merge
     cpan install Test::Exception
+    cpan install LWP::Protocol::https
+
 
 ## How to run unit tests
 
