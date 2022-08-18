@@ -108,4 +108,14 @@ sub getPrimaryPayment
 	return undef;
 }
 
+sub getLatestPayment
+{
+	my ($self) = @_;
+	my @payments = $self->getPayments();
+	if (@payments){
+		return $payments[-1];
+	}
+	return undef;
+}
+
 1;

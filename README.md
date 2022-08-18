@@ -5,21 +5,22 @@ For integrating Perl projects with the AltaPay gateway.
 ## API Methods
 
 | Supported Methods         | Methods Not Supported Yet |
-|:------------------------- | ------------------------- |
+|:--------------------------|---------------------------|
 | createPaymentRequest      | calculateSurcharge        |
-| captureReservation        | chargeSubscription        |
-| createInvoiceReservation  | credit                    |
-| refundCapturedReservation | fundingList               |
-| releaseReservation        | fundingDownload           |
-| reservation               | getCustomReport           |
-| payments                  | getInvoiceText            |
-| initiatePayment           | getTerminals              |
-| verify3dSecure            | reserveSubscriptionCharge |
-| login                     | setupSubscription         |
-|                           | queryGiftCard             |
-|                           | issueGiftCard             |
-|                           | initiateGiftCardPayment   |
-|                           | testConnection            |
+| captureReservation        | credit                    |
+| createInvoiceReservation  | fundingList               |
+| refundCapturedReservation | fundingDownload           |
+| releaseReservation        | getCustomReport           |
+| reservation               | getInvoiceText            |
+| payments                  | getTerminals              |
+| initiatePayment           | queryGiftCard             |
+| verify3dSecure            | issueGiftCard             |
+| login                     | initiateGiftCardPayment   |
+| reserveSubscriptionCharge | testConnection            |
+| chargeSubscription        |                           |
+| setupSubscription         |                           |
+| cardWallet/session        |                           |
+| cardWallet/authorize      |                           |
 
 ## Dependencies
 
@@ -32,6 +33,8 @@ Run the below commands to install the required extensions for the SDK.
     cpan install TAP::Formatter::JUnit
     cpan install Hash::Merge
     cpan install Test::Exception
+    cpan install LWP::Protocol::https
+
 
 ## How to run unit tests
 

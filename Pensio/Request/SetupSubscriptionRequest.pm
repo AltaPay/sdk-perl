@@ -1,4 +1,4 @@
-package Pensio::Request::ReservationRequest;
+package Pensio::Request::SetupSubscriptionRequest;
 
 use strict;
 use warnings;

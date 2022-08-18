@@ -6,6 +6,7 @@ use Moose;
 use Pensio::Request::PaymentRequestConfig;
 use Hash::Merge qw (merge);
 use Moose::Util::TypeConstraints;
+use Pensio::Request::AgreementConfig;
 
 require Pensio::Request::CreatePaymentBaseRequest;
 extends 'Pensio::Request::CreatePaymentBaseRequest';
@@ -56,16 +57,31 @@ has 'config' => (
 	required => 0
 );
 
+has 'agreementConfig' => (
+	isa => 'Pensio::Request::AgreementConfig',
+	is => 'rw',
+	required => 0
+);
 
+has 'saleInvoiceNumber' => (
+	isa => 'Str',
+	is => 'rw',
+	required => 0
+);
 
-
+has 'salesTax' => (
+	isa => 'Num',
+	is => 'rw',
+	required => 0,
+);
 
 sub BUILD
 {
 	my ($self, $xml) = @_;
 	
 	$self->config(new Pensio::Request::PaymentRequestConfig());
-	
+	$self->agreementConfig(new Pensio::Request::AgreementConfig());
+
 	return $self;
 }
 
@@ -80,9 +96,12 @@ sub parameters {
 	$params->{"cookie"} = $self->cookie();
 	$params->{"sale_reconciliation_identifier"} = $self->saleReconciliationIdentifier();
 	$params->{"ccToken"} = $self->creditCardToken();
-	
+	$params->{"sale_invoice_number"} = $self->saleInvoiceNumber();
+	$params->{sales_tax} = $self->salesTax();
+
 	$params = merge($params, $self->config()->parameters());
-	
+	$params = merge($params, $self->agreementConfig()->parameters());
+
 	return $params;
 }
 

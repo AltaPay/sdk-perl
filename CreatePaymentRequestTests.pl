@@ -7,7 +7,7 @@ use ExampleStdoutLogger;
 use Pensio::PensioAPI;
 use Pensio::Request::CreatePaymentRequestRequest;
 use Data::Dumper;
-use Test::More tests => 2;
+use Test::More tests => 3;
 
 my $api_settings_obj = ExampleSettings->new();
 my $api = new Pensio::PensioAPI($api_settings_obj->installation_url, $api_settings_obj->username, $api_settings_obj->password);
@@ -107,3 +107,21 @@ ok( $response->wasSuccessful(), "Created payment request with loads of data!" )
 
 note( $response->getUrl() );
 
+my $agreement_request = new Pensio::Request::CreatePaymentRequestRequest(
+    amount   => 7.33,
+    orderId  => $api_settings_obj->getRandomOrderId(),
+    terminal => $api_settings_obj->altapay_test_terminal,
+    currency => 'EUR',
+
+);
+
+$agreement_request->authType('subscription');
+
+$agreement_request->agreementConfig()->agreementType('unscheduled');
+$agreement_request->agreementConfig()->agreementUnscheduledType('incremental');
+my $agreement_response = $api->createPaymentRequest( request => $agreement_request );
+
+ok( $agreement_response->wasSuccessful(), "Created payment request with agreement setup successfully!" )
+    or diag( "Create payment request with agreement setup failed..: ", Dumper($agreement_response) );
+
+note( $agreement_response->getUrl() );
