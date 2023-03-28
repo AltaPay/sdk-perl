@@ -1,7 +1,7 @@
 package Pensio::AltaPayVersion;
 use strict;
 
-our $VERSION = '1.0.2';
+our $VERSION = '1.0.3';
 
 sub new { return bless {}, shift; }
 
