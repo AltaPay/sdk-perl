@@ -113,7 +113,7 @@ sub parameters {
 	$params->{"eyear"} = $self->expiryYear();
 	$params->{"cvc"} = $self->cvc();
 	$params->{"surcharge"} = $self->surcharge();
-	$params->{sales_tax} = $self->salesTax();
+	$params->{"sales_tax"} = $self->salesTax();
 	$params->{"cookie"} = $self->cookie();
 	$params->{"sale_invoice_number"} = $self->saleInvoiceNumber();
 	$params->{"sale_reconciliation_identifier"} = $self->saleReconciliationIdentifier();
