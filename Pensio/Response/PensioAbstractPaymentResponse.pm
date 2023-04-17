@@ -83,7 +83,7 @@ sub BUILD
 sub wasSuccessful
 {
 	my ($self) = @_;
-    return $self->getErrorCode() == '0' && $self->result eq 'Success';
+    return $self->getErrorCode() == '0' && ($self->result eq 'Success' || $self->result eq 'Redirect');
 }
 
 sub wasDeclined
