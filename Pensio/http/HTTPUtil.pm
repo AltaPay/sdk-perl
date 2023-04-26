@@ -70,13 +70,11 @@ sub _POST {
     $is_get_request = $is_get_request ? $is_get_request : 0;
     my $req;
     if ($is_get_request == 0) {
-        print STDERR "post request: ". $is_get_request ;
         my $content = $request->urlencoded();
         $req = HTTP::Request->new(POST => $request->url);
         $req->content($content);
         $req->content_type("application/x-www-form-urlencoded");
     } else {
-        print STDERR "get request: ". $is_get_request ;
         my $url = $request->url;
         my $params = $request->params();
         if ($params) {
