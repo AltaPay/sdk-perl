@@ -63,7 +63,8 @@ sub _mask_parameters {
 }
 
 sub _sendRequest {
-    my ($self, $path, $params) = @_;
+    my ($self, $path, $params, $is_get_request) = @_;
+    $is_get_request = $is_get_request ? $is_get_request : 0;
     my $url = $self->{'_installation_url'} . $path;
     my ($logId, $response);
 
@@ -76,7 +77,7 @@ sub _sendRequest {
     $request->params($params);
     $request->username($self->{_username});
     $request->password($self->{_password});
-    $response = $self->{'_http_util'}->_POST($request);    # will throw error if problem;
+    $response = $self->{'_http_util'}->_POST($request, $is_get_request);    # will throw error if problem;
     if ($self->{_logger}) {
         $self->{_logger}->logResponse($logId, $response);
     }
@@ -93,7 +94,7 @@ sub login {
 sub getPayment {
     my ($self, $request) = validated_list(\@_, request => {isa => 'Pensio::Request::GetPaymentRequest', required => 1},);
 
-    my $xml_as_hash = $self->_sendRequest('/merchant/API/payments', $request->parameters());
+    my $xml_as_hash = $self->_sendRequest('/merchant/API/payments', $request->parameters(), 1);
     return new Pensio::Response::PensioGetPaymentResponse($xml_as_hash);
 }
 
