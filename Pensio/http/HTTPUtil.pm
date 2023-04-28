@@ -64,15 +64,25 @@ sub _parse_http_response {
 }
 
 sub _POST {
-    my ($self, $request) = @_;
+    my ($self, $request, $is_get_request) = @_;
 
-    my $content = $request->urlencoded();
     my $agent   = $self->_get_useragent();
-    my $req     = HTTP::Request->new(POST => $request->url);
-
-    $req->content_type("application/x-www-form-urlencoded");
+    $is_get_request = $is_get_request ? $is_get_request : 0;
+    my $req;
+    if ($is_get_request == 0) {
+        my $content = $request->urlencoded();
+        $req = HTTP::Request->new(POST => $request->url);
+        $req->content($content);
+        $req->content_type("application/x-www-form-urlencoded");
+    } else {
+        my $url = $request->url;
+        my $params = $request->params();
+        if ($params) {
+            $url = $url . '?' . join('&', map("$_=" . encode("utf8", $params->{$_}), keys %{$params}));
+        }
+        $req = HTTP::Request->new(GET => $url);
+    }
     $req->header('x-altapay-client-version' => 'PERLSDK/' . $Pensio::AltaPayVersion::VERSION);
-    $req->content($content);
     $req->authorization_basic($request->username, $request->password);
 
     my $response = $agent->request($req);
