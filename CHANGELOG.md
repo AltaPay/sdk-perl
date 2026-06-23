@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.0.5]
+Add support for `checkoutSession` API method.
+
 ## [1.0.4]
 
 - Supports API changes from 20230412.

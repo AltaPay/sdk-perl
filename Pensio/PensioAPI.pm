@@ -23,6 +23,7 @@ use Pensio::Response::ReserveSubscriptionChargeResponse;
 use Pensio::Response::ChargeSubscriptionResponse;
 use Pensio::Response::CardWalletSessionResponse;
 use Pensio::Response::CardWalletAuthorizeResponse;
+use Pensio::Response::CheckoutSessionResponse;
 use Pensio::http::HTTPUtilRequest;
 
 sub new {
@@ -194,6 +195,13 @@ sub cardWalletAuthorize {
 
     my $xml_as_hash = $self->_sendRequest('/merchant/API/cardWallet/authorize', $request->parameters());
     return new Pensio::Response::CardWalletAuthorizeResponse($xml_as_hash);
+}
+
+sub checkoutSession {
+    my ($self, $request) = validated_list(\@_, request => {isa => 'Pensio::Request::CheckoutSessionRequest', required => 1},);
+
+    my $xml_as_hash = $self->_sendRequest('/merchant/API/checkoutSession', $request->parameters());
+    return new Pensio::Response::CheckoutSessionResponse($xml_as_hash);
 }
 
 1;

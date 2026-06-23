@@ -18,7 +18,8 @@ my @tests = (
 	'CallbackTests.pl',
 	'ReservationTests.pl',
 	'CreateInvoiceReservationTests.pl',
-	'AgreementsTests.pl'
+	'AgreementsTests.pl',
+	'CheckoutSessionTests.pl'
 );
 my $formatterClassInput;
 $options = GetOptions("output=s" => \$formatterClassInput);
