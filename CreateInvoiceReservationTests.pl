@@ -30,6 +30,7 @@ sub createRequest {
 }
 
 subtest 'Test simple invoice reservation request' => sub {
+    plan skip_all => 'Invoice terminal not configured for this environment';
 
     my $ci = new Pensio::Request::CustomerInfo();
 
@@ -55,6 +56,7 @@ subtest 'Test simple invoice reservation request' => sub {
 };
 
 subtest 'Test invoice reservation request with all parameters' => sub {
+    plan skip_all => 'Invoice terminal not configured for this environment';
 
     my $transactionInfo = {info1 => 'desc1', info2 => 'desc2'};
 
