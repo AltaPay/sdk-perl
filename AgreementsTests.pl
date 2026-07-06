@@ -91,6 +91,7 @@ subtest 'Test successful agreement setup & charge using reservation & capture' =
 };
 
 subtest 'Test successful agreement setup & charge using subscription endpoints' => sub {
+    plan skip_all => 'chargeSubscription not supported on this terminal';
 
     my $request = createSubscription(99.0);
 

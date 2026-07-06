@@ -75,6 +75,12 @@ has 'salesTax' => (
 	required => 0,
 );
 
+has 'sessionId' => (
+	isa => 'Str',
+	is => 'rw',
+	required => 0,
+);
+
 sub BUILD
 {
 	my ($self, $xml) = @_;
@@ -98,6 +104,7 @@ sub parameters {
 	$params->{"ccToken"} = $self->creditCardToken();
 	$params->{"sale_invoice_number"} = $self->saleInvoiceNumber();
 	$params->{sales_tax} = $self->salesTax();
+	$params->{session_id} = $self->sessionId();
 
 	$params = merge($params, $self->config()->parameters());
 	$params = merge($params, $self->agreementConfig()->parameters());

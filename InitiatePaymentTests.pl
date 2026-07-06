@@ -32,7 +32,7 @@ sub initiatePayment {
     my $request = new Pensio::Request::InitiatePaymentRequest(
         amount          => 2.33,
         orderId         => "capture_" . $api_settings_obj->getRandomOrderId(),
-        terminal        => $api_settings_obj->altapay_test_terminal,
+        terminal        => $localTerminal,
         currency        => 'EUR',
         cardnum         => $cardnum,
         emonth          => '03',
@@ -41,7 +41,7 @@ sub initiatePayment {
         transactionInfo => {info1 => 'test'}
     );
 
-    if ($fraudService == 'test') {
+    if ($fraudService eq 'test') {
         $request->orderLines->add(
             description => 'Test item 1',
             itemId      => 'itm1',
@@ -92,6 +92,7 @@ subtest 'Initiate regular erred payment test' => sub {
 };
 
 subtest 'Initiate 3d secure payment test' => sub {
+    plan skip_all => 'No 3D Secure terminal configured for this environment';
 
     my $response = initiatePayment('4170000000000568', 'AltaPay Test 3DSecure Terminal');
 

@@ -6,8 +6,9 @@ use ExampleSettings;
 use ExampleStdoutLogger;
 use Pensio::PensioAPI;
 use Pensio::Request::CreatePaymentRequestRequest;
+use Pensio::Request::CheckoutSessionRequest;
 use Data::Dumper;
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my $api_settings_obj = ExampleSettings->new();
 my $api = new Pensio::PensioAPI($api_settings_obj->installation_url, $api_settings_obj->username, $api_settings_obj->password);
@@ -125,3 +126,25 @@ ok( $agreement_response->wasSuccessful(), "Created payment request with agreemen
     or diag( "Create payment request with agreement setup failed..: ", Dumper($agreement_response) );
 
 note( $agreement_response->getUrl() );
+
+my $session_response = $api->checkoutSession(request => new Pensio::Request::CheckoutSessionRequest(
+    terminals   => [$api_settings_obj->altapay_test_terminal],
+    shopOrderId => $api_settings_obj->getRandomOrderId(),
+    amount      => 2.33,
+    currency    => 'EUR',
+));
+
+my $session_request = new Pensio::Request::CreatePaymentRequestRequest(
+    amount    => 2.33,
+    orderId   => $api_settings_obj->getRandomOrderId(),
+    terminal  => $api_settings_obj->altapay_test_terminal,
+    currency  => 'EUR',
+    sessionId => $session_response->getSessionId(),
+);
+
+my $session_pay_response = $api->createPaymentRequest( request => $session_request );
+
+ok( $session_pay_response->wasSuccessful(), "Created payment request with session ID successfully!" )
+  or diag( "Create payment request with session ID failed..: ", Dumper($session_pay_response) );
+
+note( $session_pay_response->getUrl() );
